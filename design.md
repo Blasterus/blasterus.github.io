@@ -4,7 +4,7 @@ title: "Design"
 permalink: /design
 ---
 
-# ARENA MyCobot Implementation
+# Steelpunk (ongoing)
 
 > insert images
 
