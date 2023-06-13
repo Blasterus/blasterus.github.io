@@ -1,6 +1,10 @@
 ---
 layout: page
-title: "Software projects"
+title: "Software"
 permalink: /software
 ---
+
+# ARENA MyCobot Implementation
+
+> insert images
 
