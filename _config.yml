@@ -34,11 +34,7 @@ theme: minima
 remote_theme: minima
 plugins:
   - jekyll-feed
-  
-titles_from_headings:
-  enabled:     true
-  strip_title: true
-  collections: true 
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
