@@ -4,7 +4,7 @@ title: "Software"
 permalink: /software
 ---
 
-# ARENA MyCobot Implementation
+# ARENA MyCobot Implementation (ongoing)
 
 > insert images
 
