@@ -8,6 +8,7 @@ permalink: /software
 
 > insert images
 
+For my latest ongoing project, working at the WiSELab at CMU, I developed a control system for two robot arms - MyCobot 280 and MyCobot 320. It was done within an exciting AR and VR environment called ARENA XR. With this system, users can manipulate the robot arms with ease, gaining full control over their movements and actions. The dynamic AR and VR interface provides a truly immersive experience that allows users to interact with the robot arms in a way that feels intuitive and engaging. The rig also includes web cameras and joysticks, so that the controls can be truly “remote”. You can find the repository [here](https://github.com/Blasterus/SteveLu-ARENA-py-Scripts).
 
 
 # Battleship! with 4 different kinds of AI
