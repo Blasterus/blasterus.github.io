@@ -8,6 +8,7 @@ permalink: /design
 
 > insert images
 
+Steelpunk is a unique medley of several genres - it combines a challenging, rewarding, and high stakes FPS PvPvE experience in a massive shared world in which individual groups of players, and the playerbase as a whole, can choose to work together or fight for access to earth and its resources. It is set far in the future where an exiled humanity launches near-suicidal strike missions from the moon to reclaim territory and extract resources from a long dead earth consumed by technology. This game project went through several genre changes throughout its 1 year in development, and I’ve helped shape and mold it to the way that it plays today.
 
 
 # Panarctica
