@@ -12,6 +12,9 @@ permalink: /design
 
 Harbingers is an FPS MMO that is a unique combination of mechanics that we feel is missing from the rapidly growing space of PvPvE experiences (think: Escape From Tarkov, Dark and Darker, The Cycle: Frontier, Destiny). In Harbingers, the entire playerbase is pitted against a single adversary: Earth itself, which has been converted into an endless factory by a rogue AI.It is set far in the future where an exiled humanity launches near-suicidal strike missions from the moon to reclaim territory and extract resources from a long dead earth consumed by technology. This game project went through several genre changes throughout its 1 year in development, and I’ve helped shape and mold it to the way that it plays today. Some gameplay screenshots are also shown above. [Website](https://www.blastfurnacegames.com/)
 
+My resume can be found [here]({{blasterus.github.io}}/assets/SteveLuResume.pdf).
+
+
 
 # Panarctica
 
