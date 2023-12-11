@@ -10,8 +10,6 @@ permalink: /design
 
 ![h1](/assets/download.webp)
 
-![h2](/assets/download-_1_.webp)
-
 ![h3](/assets/download-_2_.webp)
 
 Harbingers is an FPS MMO that is a unique combination of mechanics that we feel is missing from the rapidly growing space of PvPvE experiences (think: Escape From Tarkov, Dark and Darker, The Cycle: Frontier, Destiny). In Harbingers, the entire player base is pitted against a single adversary: Earth itself, which has been converted into an endless factory by a rogue AI. It is set far in the future where an exiled humanity launches near-suicidal strike missions from the moon to reclaim territory and extract resources from a long dead earth consumed by technology. This game project went through several genre changes throughout its 1 year in development, and I’ve helped shape and mould it to the way that it plays today. Some gameplay screenshots are also shown above. [Website](https://www.blastfurnacegames.com/)
@@ -19,7 +17,9 @@ Harbingers is an FPS MMO that is a unique combination of mechanics that we feel 
 
 # Salvage Wars
 
-My resume can be found [here]({{blasterus.github.io}}/assets/Salvage Wars Final.pdf).
+This was a unique game created in my TTRPG game design class. We were taught all different types of TTRPGs and the styles that players tend to lean towards, including realism and gameism. For my final, I decided to design and polish a very simple yet creative type of TTRPG. It is a combat based game, but instead of dice, you use coins to decide your fate. They also represent your total health. Every player pilots a mech and tries to be the last one standing.
+
+The full instruction manual can be found [here]({{blasterus.github.io}}/assets/SalvageWars.pdf).
 
 
 
