@@ -4,7 +4,27 @@ title: "Design"
 permalink: /design
 ---
 
-# Harbingers (ongoing)
+# Blackmailer's Deck
+
+Backmailer’s Deck is a fast-paced bluffing and deduction game for 3 players based on Liar's Deck. Each player plays a mix of real and fake cards to survive—lose all your tokens and you're out. The last player standing wins. It draws inspiration from games like Coup and Skull, but focuses more on short-term memory, risk-taking, and reverse psychology.
+
+The twist? Blackmail cards. They punish failed challenges and can restore tokens, flipping the power dynamic mid-round. The game creates tension with minimal rules and maximum social pressure.
+
+I designed this in a game design course focused on creating analog games with strong player interaction. I worked on refining the bluffing mechanics, balancing the Blackmail card effect, and ensuring the ruleset stayed simple but led to interesting decision-making. We playtested multiple rounds to tweak card counts, rule timing, and improve pacing.
+
+
+# A Gentleman's Dispute
+
+![AGD](/assets/agd.webp)
+
+A Gentlemen’s Dispute is a 1v1v1v1 duelling game where two Victorian gentlemen settle their differences using hats, slaps, teacups, and flair. It’s a local and online multiplayer comedy fighter with a one-button control scheme that still allows for surprisingly strategic mind games.
+
+This game was designed to be instantly readable, fast-paced, and ridiculous—perfect for short chaotic sessions between friends. I worked on tuning the core combat feel: hit timings and the pacing of rounds. I also helped shape the visual and thematic cohesion, ensuring the game's slapstick violence matched its high-society satire.
+
+We kept the input simple and the mechanics tight so the humor could shine through the gameplay itself. The result is a highly replayable, charmingly unhinged little game that always gets a laugh. [Website](https://www.blastfurnacegames.com/)
+
+
+# Harbingers
 
 ![Harbingers](/assets/harbingers.webp)
 
