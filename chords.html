@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chord Learning Module</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #efefef;
+      color: #222;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: 2.2rem;
+    }
+
+    .subtitle {
+      margin-bottom: 24px;
+      color: #555;
+    }
+
+    .stage-label {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      background: #ffffff;
+      border: 1px solid #d0d0d0;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .visual-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid #d8d8d8;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    #staffPanel {
+      width: 420px;
+    }
+
+    #pianoPanel {
+      width: 430px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #cfcfcf;
+      padding: 12px 18px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    .choice-wrap {
+      margin-top: 8px;
+    }
+
+    .choice-title {
+      font-size: 2rem;
+      margin: 18px 0 14px;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .choice-btn {
+      background: #2d8be6;
+      color: white;
+      border: none;
+      min-width: 120px;
+    }
+
+    #feedback {
+      min-height: 30px;
+      margin: 18px 0 10px;
+      font-size: 1.05rem;
+      font-weight: bold;
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .small-note {
+      margin-top: 18px;
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .blue { background: #2d8be6; }
+    .gold { background: #f2b632; }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 1.8rem; }
+      .choice-title { font-size: 1.6rem; }
+      #staffPanel, #pianoPanel { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Chord Learning Module</h1>
+    <div class="subtitle">Listen, look, and identify the chord quality.</div>
+    <div id="stageLabel" class="stage-label"></div>
+
+    <div class="visual-row">
+      <div id="staffPanel" class="panel">
+        <svg id="staffSvg" width="388" height="190" viewBox="0 0 388 190"></svg>
+      </div>
+      <div id="pianoPanel" class="panel">
+        <svg id="pianoSvg" width="398" height="190" viewBox="0 0 398 190"></svg>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="playChordBtn">Hear Again</button>
+      <button id="playNotesBtn">Hear Individual Notes</button>
+      <button id="toggleHintBtn">Hide Visual Hint</button>
+    </div>
+
+    <div class="choice-wrap">
+      <div class="choice-title">Choices</div>
+      <div class="choices" id="choices"></div>
+      <div id="feedback"></div>
+    </div>
+
+    <div class="nav-row">
+      <button id="prevBtn">Previous</button>
+      <span id="progressLabel"></span>
+      <button id="nextBtn">Next</button>
+    </div>
+
+    <div class="legend">
+      <div><span class="dot blue"></span>Chord notes</div>
+      <div><span class="dot gold"></span>Current root</div>
+    </div>
+
+    <div class="small-note">
+      Built as a scaffolded mini-module:<br>
+      1. chord with visual support → 2. pitches alone → 3. progression with visuals → 4. progression from sound alone
+    </div>
+  </div>
+
+  <script>
+    const noteToMidi = {
+      C4: 60, Db4: 61, D4: 62, Eb4: 63, E4: 64, F4: 65, Gb4: 66, G4: 67, Ab4: 68, A4: 69, Bb4: 70, B4: 71,
+      C5: 72, Db5: 73, D5: 74, Eb5: 75, E5: 76, F5: 77, Gb5: 78, G5: 79, Ab5: 80, A5: 81, Bb5: 82, B5: 83
+    };
+
+    const questions = [
+      {
+        prompt: "Identify this chord.",
+        stage: "Stage 1: Chord with staff + piano support",
+        type: "single-chord-visual",
+        notes: ["C4", "E4", "G4"],
+        root: "C4",
+        answer: "Major",
+        choices: ["Major", "Minor", "Augmented", "Diminished"]
+      },
+      {
+        prompt: "Identify this chord from its pitches.",
+        stage: "Stage 2: Hear pitches alone",
+        type: "single-chord-hidden",
+        notes: ["A4", "C5", "E5"],
+        root: "A4",
+        answer: "Minor",
+        choices: ["Major", "Minor", "Augmented", "Diminished"]
+      },
+      {
+        prompt: "Watch and hear the progression. What is the second chord?",
+        stage: "Stage 3: Progression visualized",
+        type: "progression-visual",
+        progression: [
+          { notes: ["C4", "E4", "G4"], root: "C4", quality: "Major" },
+          { notes: ["B4", "D5", "F5"], root: "B4", quality: "Diminished" }
+        ],
+        answer: "Diminished",
+        choices: ["Major", "Minor", "Augmented", "Diminished"]
+      },
+      {
+        prompt: "Listen to the progression without visual help. What is the second chord?",
+        stage: "Stage 4: Progression from sound alone",
+        type: "progression-hidden",
+        progression: [
+          { notes: ["C4", "E4", "G#4"], root: "C4", quality: "Augmented" },
+          { notes: ["D4", "F4", "A4"], root: "D4", quality: "Minor" }
+        ],
+        answer: "Minor",
+        choices: ["Major", "Minor", "Augmented", "Diminished"]
+      }
+    ];
+
+    // Add missing accidental used above.
+    noteToMidi["G#4"] = 68;
+
+    const staffSvg = document.getElementById("staffSvg");
+    const pianoSvg = document.getElementById("pianoSvg");
+    const choicesDiv = document.getElementById("choices");
+    const feedback = document.getElementById("feedback");
+    const progressLabel = document.getElementById("progressLabel");
+    const stageLabel = document.getElementById("stageLabel");
+    const playChordBtn = document.getElementById("playChordBtn");
+    const playNotesBtn = document.getElementById("playNotesBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const toggleHintBtn = document.getElementById("toggleHintBtn");
+
+    let currentIndex = 0;
+    let showVisual = true;
+    let audioCtx = null;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
+    }
+
+    function playTone(noteName, startOffset = 0, duration = 1.1) {
+      ensureAudio();
+      const midi = noteToMidi[noteName];
+      const freq = midiToFreq(midi);
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, now + startOffset);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + startOffset + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + startOffset);
+      osc.stop(now + startOffset + duration + 0.03);
+    }
+
+    function playChord(notes, spread = false, startAt = 0) {
+      if (spread) {
+        notes.forEach((note, i) => playTone(note, startAt + i * 0.5, 0.9));
+      } else {
+        notes.forEach(note => playTone(note, startAt, 1.25));
+      }
+    }
+
+    async function playCurrentQuestion(mode = "chord") {
+      const q = questions[currentIndex];
+      feedback.textContent = "";
+
+      if (q.type === "single-chord-visual" || q.type === "single-chord-hidden") {
+        if (mode === "notes") {
+          playChord(q.notes, true, 0);
+        } else {
+          playChord(q.notes, false, 0);
+        }
+      } else {
+        const [first, second] = q.progression;
+        if (mode === "notes") {
+          playChord(first.notes, true, 0);
+          playChord(second.notes, true, 1.9);
+        } else {
+          playChord(first.notes, false, 0);
+          playChord(second.notes, false, 1.4);
+        }
+      }
+    }
+
+    function getCurrentVisualNotes() {
+      const q = questions[currentIndex];
+      if (q.type === "single-chord-visual" || q.type === "single-chord-hidden") {
+        return { notes: q.notes, root: q.root };
+      }
+      const second = q.progression[q.progression.length - 1];
+      return { notes: second.notes, root: second.root };
+    }
+
+    function noteStepIndex(noteName) {
+      const baseOrder = ["C", "D", "E", "F", "G", "A", "B"];
+      const match = noteName.match(/^([A-G])([b#]?)(\d)$/);
+      if (!match) return 0;
+      const [, letter, accidental, octaveStr] = match;
+      const octave = parseInt(octaveStr, 10);
+      return octave * 7 + baseOrder.indexOf(letter);
+    }
+
+    function noteY(noteName) {
+      // E4 bottom staff line.
+      const step = noteStepIndex(noteName);
+      const e4 = noteStepIndex("E4");
+      const spacing = 10;
+      return 130 - ((step - e4) * (spacing / 2));
+    }
+
+    function drawStaff(notes, root, hidden) {
+      staffSvg.innerHTML = "";
+
+      if (hidden) {
+        staffSvg.innerHTML = `
+          <rect x="0" y="0" width="388" height="190" rx="10" fill="#fafafa"></rect>
+          <text x="194" y="95" text-anchor="middle" font-size="22" fill="#777">Visual hidden for this stage</text>
+          <text x="194" y="125" text-anchor="middle" font-size="15" fill="#999">Use your ears to identify the chord</text>
+        `;
+        return;
+      }
+
+      let html = `<rect x="0" y="0" width="388" height="190" rx="10" fill="#ffffff"></rect>`;
+
+      // Staff lines
+      for (let i = 0; i < 5; i++) {
+        const y = 90 + i * 10;
+        html += `<line x1="36" y1="${y}" x2="350" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
+      }
+
+      // Treble clef (using text glyph)
+      html += `<text x="54" y="132" font-size="92" font-family="serif">𝄞</text>`;
+
+      notes.forEach((note, index) => {
+        const x = 170 + index * 44;
+        const y = noteY(note);
+        const fill = note === root ? "#f2b632" : "#2d8be6";
+
+        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
+        html += `<line x1="${x + 9}" y1="${y}" x2="${x + 9}" y2="${y - 34}" stroke="#222" stroke-width="2"></line>`;
+
+        // Ledger lines for notes outside the staff.
+        if (y > 130) {
+          html += `<line x1="${x - 16}" y1="130" x2="${x + 16}" y2="130" stroke="#333" stroke-width="1.2"></line>`;
+        }
+        if (y < 90) {
+          html += `<line x1="${x - 16}" y1="90" x2="${x + 16}" y2="90" stroke="#333" stroke-width="1.2"></line>`;
+        }
+      });
+
+      staffSvg.innerHTML = html;
+    }
+
+    function createPianoData() {
+      const whites = [
+        { note: "C4" }, { note: "D4" }, { note: "E4" }, { note: "F4" }, { note: "G4" }, { note: "A4" }, { note: "B4" },
+        { note: "C5" }, { note: "D5" }, { note: "E5" }, { note: "F5" }, { note: "G5" }, { note: "A5" }, { note: "B5" }
+      ];
+
+      const blacks = [
+        { note: "Db4", afterWhite: 0 }, { note: "Eb4", afterWhite: 1 },
+        { note: "Gb4", afterWhite: 3 }, { note: "Ab4", afterWhite: 4 }, { note: "Bb4", afterWhite: 5 },
+        { note: "Db5", afterWhite: 7 }, { note: "Eb5", afterWhite: 8 },
+        { note: "Gb5", afterWhite: 10 }, { note: "Ab5", afterWhite: 11 }, { note: "Bb5", afterWhite: 12 }
+      ];
+
+      return { whites, blacks };
+    }
+
+    function drawPiano(notes, root, hidden) {
+      pianoSvg.innerHTML = "";
+
+      if (hidden) {
+        pianoSvg.innerHTML = `
+          <rect x="0" y="0" width="398" height="190" rx="10" fill="#fafafa"></rect>
+          <text x="199" y="95" text-anchor="middle" font-size="22" fill="#777">Visual hidden for this stage</text>
+          <text x="199" y="125" text-anchor="middle" font-size="15" fill="#999">Try answering from sound alone</text>
+        `;
+        return;
+      }
+
+      const { whites, blacks } = createPianoData();
+      const whiteWidth = 26;
+      const whiteHeight = 150;
+      const blackWidth = 16;
+      const blackHeight = 90;
+      const startX = 18;
+      const startY = 16;
+      let html = `<rect x="0" y="0" width="398" height="190" rx="10" fill="#ffffff"></rect>`;
+
+      whites.forEach((key, i) => {
+        const x = startX + i * whiteWidth;
+        const isActive = notes.includes(key.note);
+        const isRoot = key.note === root;
+        const fill = isRoot ? "#f7d06a" : (isActive ? "#8fc3ff" : "#f8f8f8");
+        html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
+      });
+
+      blacks.forEach((key) => {
+        const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
+        const isActive = notes.includes(key.note) || (key.note === "Ab4" && notes.includes("G#4"));
+        const isRoot = key.note === root || (root === "G#4" && key.note === "Ab4");
+        const fill = isRoot ? "#f2b632" : (isActive ? "#2d8be6" : "#33373d");
+        html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
+      });
+
+      pianoSvg.innerHTML = html;
+    }
+
+    function isVisualHiddenForQuestion(q) {
+      if (!showVisual) return true;
+      return q.type === "single-chord-hidden" || q.type === "progression-hidden";
+    }
+
+    function renderChoices(question) {
+      choicesDiv.innerHTML = "";
+      question.choices.forEach(choice => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = choice;
+        btn.addEventListener("click", () => checkAnswer(choice));
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(choice) {
+      const q = questions[currentIndex];
+      if (choice === q.answer) {
+        feedback.textContent = `Correct! ${choice} is the right answer.`;
+        feedback.style.color = "#1d7a35";
+      } else {
+        feedback.textContent = `Not quite. You picked ${choice}. Correct answer: ${q.answer}.`;
+        feedback.style.color = "#b03a2e";
+      }
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      const hidden = isVisualHiddenForQuestion(q);
+      const { notes, root } = getCurrentVisualNotes();
+
+      stageLabel.textContent = `${q.stage} — ${q.prompt}`;
+      progressLabel.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+      toggleHintBtn.textContent = hidden ? "Show Visual Hint" : "Hide Visual Hint";
+
+      drawStaff(notes, root, hidden);
+      drawPiano(notes, root, hidden);
+      renderChoices(q);
+      feedback.textContent = "";
+      feedback.style.color = "#222";
+    }
+
+    playChordBtn.addEventListener("click", () => playCurrentQuestion("chord"));
+    playNotesBtn.addEventListener("click", () => playCurrentQuestion("notes"));
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % questions.length;
+      showVisual = true;
+      renderQuestion();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + questions.length) % questions.length;
+      showVisual = true;
+      renderQuestion();
+    });
+
+    toggleHintBtn.addEventListener("click", () => {
+      showVisual = !showVisual;
+      renderQuestion();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
