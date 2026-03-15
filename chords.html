@@ -166,6 +166,8 @@
   <div class="app">
     <h1>Chord Learning Module</h1>
     <div class="subtitle">Listen, look, and identify the chord quality.</div>
+    
+
     <div class="visual-row">
       <div id="staffPanel" class="panel">
         <svg id="staffSvg" width="388" height="190" viewBox="0 0 388 190"></svg>
@@ -176,7 +178,7 @@
     </div>
 
     <div class="controls">
-      <button id="playChordBtn">Hear Chord</button>
+      <button id="playChordBtn">Hear Again</button>
       <button id="playNotesBtn">Hear Individual Notes</button>
       <button id="toggleHintBtn">Hide Visual Hint</button>
     </div>
@@ -210,7 +212,7 @@
     const questions = [
       {
         prompt: "Identify this chord.",
-        
+        stage: "Stage 1: Chord with staff + piano support",
         type: "single-chord-visual",
         notes: ["C4", "E4", "G4"],
         root: "C4",
@@ -219,7 +221,7 @@
       },
       {
         prompt: "Identify this chord from its pitches.",
-        
+        stage: "Stage 2: Hear pitches alone",
         type: "single-chord-hidden",
         notes: ["A4", "C5", "E5"],
         root: "A4",
@@ -228,7 +230,7 @@
       },
       {
         prompt: "Watch and hear the progression. What is the second chord?",
-        
+        stage: "Stage 3: Progression visualized",
         type: "progression-visual",
         progression: [
           { notes: ["C4", "E4", "G4"], root: "C4", quality: "Major" },
@@ -239,7 +241,7 @@
       },
       {
         prompt: "Listen to the progression without visual help. What is the second chord?",
-        
+        stage: "Stage 4: Progression from sound alone",
         type: "progression-hidden",
         progression: [
           { notes: ["C4", "E4", "G#4"], root: "C4", quality: "Augmented" },
@@ -258,7 +260,7 @@
     const choicesDiv = document.getElementById("choices");
     const feedback = document.getElementById("feedback");
     const progressLabel = document.getElementById("progressLabel");
-    const stageLabel = document.getElementById("stageLabel");
+    
     const playChordBtn = document.getElementById("playChordBtn");
     const playNotesBtn = document.getElementById("playNotesBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -489,7 +491,7 @@
       const hidden = isVisualHiddenForQuestion(q);
       const { notes, root } = getCurrentVisualNotes();
 
-      stageLabel.textContent = `${q.stage} — ${q.prompt}`;
+      // Stage label removed
       progressLabel.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
       toggleHintBtn.textContent = hidden ? "Show Visual Hint" : "Hide Visual Hint";
 
