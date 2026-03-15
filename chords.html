@@ -178,7 +178,7 @@
     </div>
 
     <div class="controls">
-      <button id="playChordBtn">Hear Again</button>
+      <button id="playChordBtn">Hear Chord</button>
       <button id="playNotesBtn">Hear Individual Notes</button>
       <button id="toggleHintBtn">Hide Visual Hint</button>
     </div>
@@ -200,10 +200,7 @@
       <div><span class="dot gold"></span>Current root</div>
     </div>
 
-    <div class="small-note">
-      Built as a scaffolded mini-module:<br>
-      1. chord with visual support → 2. pitches alone → 3. progression with visuals → 4. progression from sound alone
-    </div>
+    
   </div>
 
   <script>
@@ -215,7 +212,7 @@
     const questions = [
       {
         prompt: "Identify this chord.",
-        stage: "Stage 1: Chord with staff + piano support",
+        
         type: "single-chord-visual",
         notes: ["C4", "E4", "G4"],
         root: "C4",
@@ -224,7 +221,7 @@
       },
       {
         prompt: "Identify this chord from its pitches.",
-        stage: "Stage 2: Hear pitches alone",
+        
         type: "single-chord-hidden",
         notes: ["A4", "C5", "E5"],
         root: "A4",
@@ -233,7 +230,7 @@
       },
       {
         prompt: "Watch and hear the progression. What is the second chord?",
-        stage: "Stage 3: Progression visualized",
+        
         type: "progression-visual",
         progression: [
           { notes: ["C4", "E4", "G4"], root: "C4", quality: "Major" },
@@ -244,7 +241,7 @@
       },
       {
         prompt: "Listen to the progression without visual help. What is the second chord?",
-        stage: "Stage 4: Progression from sound alone",
+        
         type: "progression-hidden",
         progression: [
           { notes: ["C4", "E4", "G#4"], root: "C4", quality: "Augmented" },
