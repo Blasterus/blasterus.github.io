@@ -247,12 +247,11 @@
           { notes: ["C4", "E4", "G#4"], root: "C4", quality: "Augmented" },
           { notes: ["D4", "F4", "A4"], root: "D4", quality: "Minor" }
         ],
-        answer: "Minor",
+        answer: "Augmented",
         choices: ["Major", "Minor", "Augmented", "Diminished"]
       }
     ];
 
-    // Add missing accidental used above.
     noteToMidi["G#4"] = 68;
 
     const staffSvg = document.getElementById("staffSvg");
@@ -353,7 +352,6 @@
     }
 
     function noteY(noteName) {
-      // E4 bottom staff line.
       const step = noteStepIndex(noteName);
       const e4 = noteStepIndex("E4");
       const spacing = 10;
@@ -374,13 +372,11 @@
 
       let html = `<rect x="0" y="0" width="388" height="190" rx="10" fill="#ffffff"></rect>`;
 
-      // Staff lines
       for (let i = 0; i < 5; i++) {
         const y = 90 + i * 10;
         html += `<line x1="36" y1="${y}" x2="350" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
       }
 
-      // Treble clef (using text glyph)
       html += `<text x="54" y="132" font-size="92" font-family="serif">𝄞</text>`;
 
       notes.forEach((note, index) => {
@@ -391,7 +387,6 @@
         html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
         html += `<line x1="${x + 9}" y1="${y}" x2="${x + 9}" y2="${y - 34}" stroke="#222" stroke-width="2"></line>`;
 
-        // Ledger lines for notes outside the staff.
         if (y > 130) {
           html += `<line x1="${x - 16}" y1="130" x2="${x + 16}" y2="130" stroke="#333" stroke-width="1.2"></line>`;
         }
@@ -491,7 +486,6 @@
       const hidden = isVisualHiddenForQuestion(q);
       const { notes, root } = getCurrentVisualNotes();
 
-      // Stage label removed
       progressLabel.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
       toggleHintBtn.textContent = hidden ? "Show Visual Hint" : "Hide Visual Hint";
 
