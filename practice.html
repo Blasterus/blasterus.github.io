@@ -57,8 +57,9 @@
 
     #playBtn {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       width: 34px;
       height: 34px;
       border-radius: 50%;
@@ -222,6 +223,9 @@
   </div>
 
   <script>
+    const BLUE = "#2d8be6";
+    const GOLD = "#f2b632";
+
     const noteToMidi = {
       C4: 60, "C#4": 61, Db4: 61, D4: 62, "D#4": 63, Eb4: 63, E4: 64, F4: 65, "F#4": 66, Gb4: 66,
       G4: 67, "G#4": 68, Ab4: 68, A4: 69, "A#4": 70, Bb4: 70, B4: 71,
@@ -291,35 +295,44 @@
     }
 
     function drawStaff(notes, root) {
+      const STAFF_TOP = 90;
+      const STAFF_GAP = 10;
+      const STAFF_BOTTOM = STAFF_TOP + STAFF_GAP * 4;
+      const NOTE_X = 214;
+
       let html = `<rect x="0" y="0" width="388" height="190" rx="10" fill="#ffffff"></rect>`;
 
       for (let i = 0; i < 5; i++) {
-        const y = 90 + i * 10;
+        const y = STAFF_TOP + i * STAFF_GAP;
         html += `<line x1="36" y1="${y}" x2="350" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
       }
 
       html += `<text x="54" y="132" font-size="92" font-family="serif">𝄞</text>`;
 
-      notes.forEach((note, index) => {
+      notes.forEach((note) => {
         const parsed = parseNote(note);
-        const x = 170 + index * 44;
+        const x = NOTE_X;
         const y = noteY(note);
-        const fill = note === root ? "#f2b632" : "#2d8be6";
+        const fill = note === root ? GOLD : BLUE;
 
         if (parsed.accidental) {
           const symbol = parsed.accidental === "#" ? "♯" : "♭";
           html += `<text x="${x - 24}" y="${y + 8}" font-size="34" font-family="serif" fill="#111">${symbol}</text>`;
         }
 
-        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
-        html += `<line x1="${x + 9}" y1="${y}" x2="${x + 9}" y2="${y - 34}" stroke="#222" stroke-width="2"></line>`;
+        if (y < STAFF_TOP) {
+          for (let ly = STAFF_TOP - STAFF_GAP; ly >= y; ly -= STAFF_GAP) {
+            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
+          }
+        }
 
-        if (y > 130) {
-          html += `<line x1="${x - 16}" y1="130" x2="${x + 16}" y2="130" stroke="#333" stroke-width="1.2"></line>`;
+        if (y > STAFF_BOTTOM) {
+          for (let ly = STAFF_BOTTOM + STAFF_GAP; ly <= y; ly += STAFF_GAP) {
+            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
+          }
         }
-        if (y < 90) {
-          html += `<line x1="${x - 16}" y1="90" x2="${x + 16}" y2="90" stroke="#333" stroke-width="1.2"></line>`;
-        }
+
+        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
       });
 
       staffSvg.innerHTML = html;
@@ -361,7 +374,7 @@
         const x = startX + i * whiteWidth;
         const isActive = notes.includes(key.note);
         const isRoot = key.note === root;
-        const fill = isRoot ? "#f7d06a" : (isActive ? "#8fc3ff" : "#f8f8f8");
+        const fill = isRoot ? "#f7d06a" : (isActive ? BLUE : "#f8f8f8");
         html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
       });
 
@@ -369,7 +382,7 @@
         const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
         const isActive = key.aliases.some(a => notes.includes(a));
         const isRoot = key.aliases.includes(root);
-        const fill = isRoot ? "#f2b632" : (isActive ? "#2d8be6" : "#33373d");
+        const fill = isRoot ? GOLD : (isActive ? BLUE : "#33373d");
         html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
       });
 
