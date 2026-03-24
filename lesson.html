@@ -58,12 +58,12 @@
       margin: 10px 0 0 8px;
     }
 
-    .next-wrap {
+    .nav-link-wrap {
       margin-top: 36px;
       text-align: right;
     }
 
-    .next-link {
+    .nav-link {
       display: inline-block;
       background: #2d8be6;
       color: white;
@@ -77,21 +77,6 @@
       font-size: 0.95rem;
       color: #555;
       margin-top: 8px;
-    }
-
-    .play-btn {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 1px solid #cfcfcf;
-      background: #fff;
-      cursor: pointer;
-      font-size: 14px;
-      z-index: 2;
     }
 
     @media (max-width: 800px) {
@@ -119,7 +104,6 @@
 
       <div class="example-row">
         <div class="panel">
-          <button class="play-btn" data-notes="C4,E4,G4">▶</button>
           <svg id="triadStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
           <div class="caption">A triad stacks the root, third, and fifth.</div>
         </div>
@@ -140,7 +124,6 @@
 
       <div class="example-row">
         <div class="panel">
-          <button class="play-btn" data-notes="C4,E4,G4">▶</button>
           <svg id="majorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -161,7 +144,6 @@
 
       <div class="example-row">
         <div class="panel">
-          <button class="play-btn" data-notes="Eb4,G4,Bb4">▶</button>
           <svg id="ebMajorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -186,7 +168,6 @@
 
       <div class="example-row">
         <div class="panel">
-          <button class="play-btn" data-notes="C4,Eb4,G4">▶</button>
           <svg id="minorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -207,7 +188,6 @@
 
       <div class="example-row">
         <div class="panel">
-          <button class="play-btn" data-notes="B4,D5,F#5">▶</button>
           <svg id="bMinorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -231,60 +211,14 @@
       </ol>
     </div>
 
-    <div class="next-wrap">
-      <a class="next-link" href="practice.html">Go to Practice →</a>
+    <div class="nav-link-wrap">
+      <a class="nav-link" href="practice.html">Go to Practice →</a>
     </div>
   </div>
 
   <script>
     const BLUE = "#2d8be6";
     const GOLD = "#f2b632";
-
-    const noteToMidi = {
-      C4: 60, "C#4": 61, Db4: 61, D4: 62, "D#4": 63, Eb4: 63, E4: 64, F4: 65, "F#4": 66, Gb4: 66,
-      G4: 67, "G#4": 68, Ab4: 68, A4: 69, "A#4": 70, Bb4: 70, B4: 71,
-      C5: 72, "C#5": 73, Db5: 73, D5: 74, "D#5": 75, Eb5: 75, E5: 76, F5: 77, "F#5": 78, Gb5: 78,
-      G5: 79, "G#5": 80, Ab5: 80, A5: 81, "A#5": 82, Bb5: 82, B5: 83
-    };
-
-    let audioCtx = null;
-
-    function ensureAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
-    }
-
-    function midiToFreq(midi) {
-      return 440 * Math.pow(2, (midi - 69) / 12);
-    }
-
-    function playTone(noteName, startOffset = 0, duration = 1.2) {
-      ensureAudio();
-      const midi = noteToMidi[noteName];
-      const freq = midiToFreq(midi);
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = "triangle";
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.0001, now + startOffset);
-      gain.gain.exponentialRampToValueAtTime(0.18, now + startOffset + 0.03);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + duration);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now + startOffset);
-      osc.stop(now + startOffset + duration + 0.03);
-    }
-
-    function playChord(notes) {
-      notes.forEach(note => playTone(note, 0, 1.25));
-    }
 
     function parseNote(note) {
       const m = note.match(/^([A-G])([#b]?)(\d)$/);
@@ -324,11 +258,11 @@
         const parsed = parseNote(note);
         const x = NOTE_X;
         const y = noteY(note);
-        const fill = note === root ? GOLD : BLUE;
+        const color = note === root ? GOLD : BLUE;
 
         if (parsed.accidental) {
           const symbol = parsed.accidental === "#" ? "♯" : "♭";
-          html += `<text x="${x - 24}" y="${y + 8}" font-size="38" font-family="serif" fill="${labelMode ? "#d13a2f" : "#111"}">${symbol}</text>`;
+          html += `<text x="${x - 18}" y="${y + 6}" font-size="28" font-family="serif" fill="#111">${symbol}</text>`;
         }
 
         if (y < STAFF_TOP) {
@@ -343,7 +277,7 @@
           }
         }
 
-        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
+        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="#ffffff" stroke="${color}" stroke-width="2.4" transform="rotate(-20 ${x} ${y})"></ellipse>`;
 
         if (labelMode) {
           const labels = ["Root", "Third", "Fifth"];
@@ -422,13 +356,6 @@
 
     drawStaff("bMinorStaff", ["B4", "D5", "F#5"], "B4");
     drawPiano("bMinorPiano", ["B4", "D5", "F#5"], "B4");
-
-    document.querySelectorAll(".play-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const notes = btn.dataset.notes.split(",");
-        playChord(notes);
-      });
-    });
   </script>
 </body>
 </html>
