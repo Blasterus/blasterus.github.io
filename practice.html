@@ -55,19 +55,21 @@
       width: 430px;
     }
 
-    #playBtn {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .control-btn {
+      font-size: 0.95rem;
+      border-radius: 10px;
       border: 1px solid #cfcfcf;
-      background: #fff;
+      padding: 10px 14px;
+      background: #ffffff;
       cursor: pointer;
-      font-size: 14px;
-      z-index: 2;
     }
 
     .answer-wrap {
@@ -147,11 +149,19 @@
     .blue { background: #2d8be6; }
     .gold { background: #f2b632; }
 
-    .top-link {
-      display: inline-block;
+    .nav-link-wrap {
       margin-bottom: 18px;
-      color: #2d8be6;
+      text-align: left;
+    }
+
+    .nav-link {
+      display: inline-block;
+      background: #2d8be6;
+      color: white;
       text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
     }
 
     @media (max-width: 700px) {
@@ -163,14 +173,20 @@
 </head>
 <body>
   <div class="app">
-    <a class="top-link" href="lesson.html">← Back to lesson</a>
+    <div class="nav-link-wrap">
+      <a class="nav-link" href="lesson.html">← Back to Lesson</a>
+    </div>
+
     <h1>Triad Practice</h1>
     <div class="subtitle">Listen to the chord, read the notation, and identify the triad.</div>
 
     <div class="visual-row">
       <div id="staffPanel" class="panel">
-        <button id="playBtn" title="Play chord">▶</button>
         <svg id="staffSvg" width="388" height="190" viewBox="0 0 388 190"></svg>
+        <div class="controls">
+          <button class="control-btn" id="playChordBtn">Play Chord</button>
+          <button class="control-btn" id="playNotesBtn">Play Individual Notes</button>
+        </div>
       </div>
       <div id="pianoPanel" class="panel">
         <svg id="pianoSvg" width="398" height="190" viewBox="0 0 398 190"></svg>
@@ -261,11 +277,23 @@
       { displayRoot: "B", quality: "Minor", root: "B4", notes: ["B4", "D5", "F#5"] }
     ];
 
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    const shuffledQuestions = shuffleArray(questionBank);
+
     const staffSvg = document.getElementById("staffSvg");
     const pianoSvg = document.getElementById("pianoSvg");
     const feedback = document.getElementById("feedback");
     const progressLabel = document.getElementById("progressLabel");
-    const playBtn = document.getElementById("playBtn");
+    const playChordBtn = document.getElementById("playChordBtn");
+    const playNotesBtn = document.getElementById("playNotesBtn");
     const submitBtn = document.getElementById("submitBtn");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -313,11 +341,11 @@
         const parsed = parseNote(note);
         const x = NOTE_X;
         const y = noteY(note);
-        const fill = note === root ? GOLD : BLUE;
+        const color = note === root ? GOLD : BLUE;
 
         if (parsed.accidental) {
           const symbol = parsed.accidental === "#" ? "♯" : "♭";
-          html += `<text x="${x - 24}" y="${y + 8}" font-size="34" font-family="serif" fill="#111">${symbol}</text>`;
+          html += `<text x="${x - 18}" y="${y + 6}" font-size="28" font-family="serif" fill="#111">${symbol}</text>`;
         }
 
         if (y < STAFF_TOP) {
@@ -332,7 +360,7 @@
           }
         }
 
-        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
+        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="#ffffff" stroke="${color}" stroke-width="2.4" transform="rotate(-20 ${x} ${y})"></ellipse>`;
       });
 
       staffSvg.innerHTML = html;
@@ -426,15 +454,19 @@
       notes.forEach(note => playTone(note, 0, 1.25));
     }
 
+    function playIndividualNotes(notes) {
+      notes.forEach((note, i) => playTone(note, i * 0.55, 0.9));
+    }
+
     function currentQuestion() {
-      return questionBank[currentIndex];
+      return shuffledQuestions[currentIndex];
     }
 
     function renderQuestion() {
       const q = currentQuestion();
       drawStaff(q.notes, q.root);
       drawPiano(q.notes, q.root);
-      progressLabel.textContent = `Question ${currentIndex + 1} of ${questionBank.length}`;
+      progressLabel.textContent = `Question ${currentIndex + 1} of ${shuffledQuestions.length}`;
       feedback.textContent = "";
       feedback.style.color = "#222";
       letterSelect.value = "";
@@ -462,16 +494,17 @@
       }
     }
 
-    playBtn.addEventListener("click", () => playChord(currentQuestion().notes));
+    playChordBtn.addEventListener("click", () => playChord(currentQuestion().notes));
+    playNotesBtn.addEventListener("click", () => playIndividualNotes(currentQuestion().notes));
     submitBtn.addEventListener("click", checkAnswer);
 
     nextBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % questionBank.length;
+      currentIndex = (currentIndex + 1) % shuffledQuestions.length;
       renderQuestion();
     });
 
     prevBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + questionBank.length) % questionBank.length;
+      currentIndex = (currentIndex - 1 + shuffledQuestions.length) % shuffledQuestions.length;
       renderQuestion();
     });
 
