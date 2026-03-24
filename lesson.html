@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triads Lesson</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #efefef;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 28px;
+    }
+
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .example-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+      margin: 20px 0 12px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #d8d8d8;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .bullet-list, .step-list {
+      margin: 10px 0 0 8px;
+    }
+
+    .next-wrap {
+      margin-top: 36px;
+      text-align: right;
+    }
+
+    .next-link {
+      display: inline-block;
+      background: #2d8be6;
+      color: white;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .caption {
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 800px) {
+      .example-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Triads</h1>
+    <div class="subtitle">Learn how major and minor triads are built, then move into practice.</div>
+
+    <div class="section">
+      <p>
+        A chord is made up of three or more notes played together, all built from a single starting note called the root.
+        In this lesson, we focus on triads, which consist of three notes:
+      </p>
+      <ul class="bullet-list">
+        <li>Root</li>
+        <li>Third</li>
+        <li>Fifth</li>
+      </ul>
+
+      <div class="example-row">
+        <div class="panel">
+          <svg id="triadStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
+          <div class="caption">A triad stacks the root, third, and fifth.</div>
+        </div>
+        <div class="panel">
+          <svg id="triadPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
+          <div class="caption">The same chord can also be shown on a piano keyboard.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Major triads</h2>
+      <p>
+        A major triad is formed by adding a major third and a perfect fifth above the root.
+        To build a C major triad, start on C, then count 4 half steps up to E and 7 half steps up to G.
+        The triad is C–E–G.
+      </p>
+
+      <div class="example-row">
+        <div class="panel">
+          <svg id="majorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+        <div class="panel">
+          <svg id="majorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+      </div>
+
+      <ul class="step-list">
+        <li>Start on C</li>
+        <li>+4 half steps → E</li>
+        <li>+7 half steps → G</li>
+      </ul>
+
+      <p style="margin-top:20px;">
+        For an E♭ major triad, begin with E♭ as the root. Count up 4 half steps to get G,
+        and 7 half steps to get B♭. The triad is E♭–G–B♭.
+      </p>
+
+      <div class="example-row">
+        <div class="panel">
+          <svg id="ebMajorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+        <div class="panel">
+          <svg id="ebMajorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+      </div>
+
+      <ul class="step-list">
+        <li>Start on E♭</li>
+        <li>+4 half steps → G</li>
+        <li>+7 half steps → B♭</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Minor triads</h2>
+      <p>
+        Minor triads are built differently: they use a minor third and a perfect fifth.
+        To build a C minor triad, start on C, count 3 half steps up to E♭, and 7 half steps up to G.
+        The triad is C–E♭–G.
+      </p>
+
+      <div class="example-row">
+        <div class="panel">
+          <svg id="minorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+        <div class="panel">
+          <svg id="minorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+      </div>
+
+      <ul class="step-list">
+        <li>Start on C</li>
+        <li>+3 half steps → E♭</li>
+        <li>+7 half steps → G</li>
+      </ul>
+
+      <p style="margin-top:20px;">
+        For a B minor triad, start on B. Count 3 half steps up to D and 7 half steps up to F♯.
+        The triad is B–D–F♯.
+      </p>
+
+      <div class="example-row">
+        <div class="panel">
+          <svg id="bMinorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+        <div class="panel">
+          <svg id="bMinorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
+        </div>
+      </div>
+
+      <ul class="step-list">
+        <li>Start on B</li>
+        <li>+3 half steps → D</li>
+        <li>+7 half steps → F♯</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>General rule</h2>
+      <ol>
+        <li>Start on the root</li>
+        <li>Choose major (4) or minor (3) for the third</li>
+        <li>Add the fifth (7)</li>
+      </ol>
+    </div>
+
+    <div class="next-wrap">
+      <a class="next-link" href="practice.html">Go to Practice →</a>
+    </div>
+  </div>
+
+  <script>
+    function parseNote(note) {
+      const m = note.match(/^([A-G])([#b]?)(\d)$/);
+      return { letter: m[1], accidental: m[2] || "", octave: parseInt(m[3], 10) };
+    }
+
+    function noteStepIndex(noteName) {
+      const order = ["C", "D", "E", "F", "G", "A", "B"];
+      const n = parseNote(noteName);
+      return n.octave * 7 + order.indexOf(n.letter);
+    }
+
+    function noteY(noteName) {
+      const step = noteStepIndex(noteName);
+      const e4 = noteStepIndex("E4");
+      const spacing = 12;
+      return 150 - ((step - e4) * (spacing / 2));
+    }
+
+    function drawStaff(svgId, notes, root, labelMode = false) {
+      const svg = document.getElementById(svgId);
+      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
+
+      for (let i = 0; i < 5; i++) {
+        const y = 84 + i * 14;
+        html += `<line x1="36" y1="${y}" x2="382" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
+      }
+
+      html += `<text x="52" y="138" font-size="96" font-family="serif">𝄞</text>`;
+
+      notes.forEach((note, index) => {
+        const parsed = parseNote(note);
+        const x = 210 + index * 26;
+        const y = noteY(note);
+        const fill = note === root ? "#f2b632" : "#111";
+
+        if (parsed.accidental) {
+          const symbol = parsed.accidental === "#" ? "♯" : "♭";
+          html += `<text x="${x - 24}" y="${y + 8}" font-size="38" font-family="serif" fill="${labelMode ? "#d13a2f" : "#111"}">${symbol}</text>`;
+        }
+
+        html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
+        html += `<line x1="${x + 10}" y1="${y}" x2="${x + 10}" y2="${y - 44}" stroke="#111" stroke-width="2"></line>`;
+
+        if (labelMode) {
+          const labels = ["Root", "Third", "Fifth"];
+          const lx = [x - 42, x - 12, x + 16][index] || x;
+          const ly = [y + 34, y - 22, y + 34][index] || (y + 28);
+          html += `<text x="${lx}" y="${ly}" font-size="14" fill="#d13a2f">${labels[index]}</text>`;
+        }
+      });
+
+      svg.innerHTML = html;
+    }
+
+    function createPianoData() {
+      const whites = [
+        { note: "C4" }, { note: "D4" }, { note: "E4" }, { note: "F4" }, { note: "G4" }, { note: "A4" }, { note: "B4" },
+        { note: "C5" }, { note: "D5" }, { note: "E5" }, { note: "F5" }, { note: "G5" }, { note: "A5" }, { note: "B5" }
+      ];
+
+      const blacks = [
+        { aliases: ["C#4", "Db4"], afterWhite: 0 },
+        { aliases: ["D#4", "Eb4"], afterWhite: 1 },
+        { aliases: ["F#4", "Gb4"], afterWhite: 3 },
+        { aliases: ["G#4", "Ab4"], afterWhite: 4 },
+        { aliases: ["A#4", "Bb4"], afterWhite: 5 },
+        { aliases: ["C#5", "Db5"], afterWhite: 7 },
+        { aliases: ["D#5", "Eb5"], afterWhite: 8 },
+        { aliases: ["F#5", "Gb5"], afterWhite: 10 },
+        { aliases: ["G#5", "Ab5"], afterWhite: 11 },
+        { aliases: ["A#5", "Bb5"], afterWhite: 12 }
+      ];
+
+      return { whites, blacks };
+    }
+
+    function drawPiano(svgId, notes, root) {
+      const svg = document.getElementById(svgId);
+      const { whites, blacks } = createPianoData();
+      const whiteWidth = 24;
+      const whiteHeight = 160;
+      const blackWidth = 14;
+      const blackHeight = 92;
+      const startX = 34;
+      const startY = 24;
+      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
+
+      whites.forEach((key, i) => {
+        const x = startX + i * whiteWidth;
+        const isActive = notes.includes(key.note);
+        const isRoot = key.note === root;
+        const fill = isRoot ? "#f7d06a" : (isActive ? "#9fcfff" : "#f8f8f8");
+        html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
+      });
+
+      blacks.forEach((key) => {
+        const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
+        const isActive = key.aliases.some(a => notes.includes(a));
+        const isRoot = key.aliases.includes(root);
+        const fill = isRoot ? "#f2b632" : (isActive ? "#2d8be6" : "#33373d");
+        html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
+      });
+
+      svg.innerHTML = html;
+    }
+
+    drawStaff("triadStaff", ["C4", "E4", "G4"], "C4", true);
+    drawPiano("triadPiano", ["C4", "E4", "G4"], "C4");
+
+    drawStaff("majorStaff", ["C4", "E4", "G4"], "C4");
+    drawPiano("majorPiano", ["C4", "E4", "G4"], "C4");
+
+    drawStaff("ebMajorStaff", ["Eb4", "G4", "Bb4"], "Eb4");
+    drawPiano("ebMajorPiano", ["Eb4", "G4", "Bb4"], "Eb4");
+
+    drawStaff("minorStaff", ["C4", "Eb4", "G4"], "C4");
+    drawPiano("minorPiano", ["C4", "Eb4", "G4"], "C4");
+
+    drawStaff("bMinorStaff", ["B4", "D5", "F#5"], "B4");
+    drawPiano("bMinorPiano", ["B4", "D5", "F#5"], "B4");
+  </script>
+</body>
+</html>
