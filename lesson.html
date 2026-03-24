@@ -51,6 +51,7 @@
       border-radius: 14px;
       padding: 16px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      position: relative;
     }
 
     .bullet-list, .step-list {
@@ -78,6 +79,21 @@
       margin-top: 8px;
     }
 
+    .play-btn {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #cfcfcf;
+      background: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 2;
+    }
+
     @media (max-width: 800px) {
       .example-row {
         grid-template-columns: 1fr;
@@ -103,6 +119,7 @@
 
       <div class="example-row">
         <div class="panel">
+          <button class="play-btn" data-notes="C4,E4,G4">▶</button>
           <svg id="triadStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
           <div class="caption">A triad stacks the root, third, and fifth.</div>
         </div>
@@ -123,6 +140,7 @@
 
       <div class="example-row">
         <div class="panel">
+          <button class="play-btn" data-notes="C4,E4,G4">▶</button>
           <svg id="majorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -143,6 +161,7 @@
 
       <div class="example-row">
         <div class="panel">
+          <button class="play-btn" data-notes="Eb4,G4,Bb4">▶</button>
           <svg id="ebMajorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -167,6 +186,7 @@
 
       <div class="example-row">
         <div class="panel">
+          <button class="play-btn" data-notes="C4,Eb4,G4">▶</button>
           <svg id="minorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -187,6 +207,7 @@
 
       <div class="example-row">
         <div class="panel">
+          <button class="play-btn" data-notes="B4,D5,F#5">▶</button>
           <svg id="bMinorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
         </div>
         <div class="panel">
@@ -216,6 +237,55 @@
   </div>
 
   <script>
+    const BLUE = "#2d8be6";
+    const GOLD = "#f2b632";
+
+    const noteToMidi = {
+      C4: 60, "C#4": 61, Db4: 61, D4: 62, "D#4": 63, Eb4: 63, E4: 64, F4: 65, "F#4": 66, Gb4: 66,
+      G4: 67, "G#4": 68, Ab4: 68, A4: 69, "A#4": 70, Bb4: 70, B4: 71,
+      C5: 72, "C#5": 73, Db5: 73, D5: 74, "D#5": 75, Eb5: 75, E5: 76, F5: 77, "F#5": 78, Gb5: 78,
+      G5: 79, "G#5": 80, Ab5: 80, A5: 81, "A#5": 82, Bb5: 82, B5: 83
+    };
+
+    let audioCtx = null;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
+    }
+
+    function playTone(noteName, startOffset = 0, duration = 1.2) {
+      ensureAudio();
+      const midi = noteToMidi[noteName];
+      const freq = midiToFreq(midi);
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.0001, now + startOffset);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + startOffset + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + startOffset + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + startOffset);
+      osc.stop(now + startOffset + duration + 0.03);
+    }
+
+    function playChord(notes) {
+      notes.forEach(note => playTone(note, 0, 1.25));
+    }
+
     function parseNote(note) {
       const m = note.match(/^([A-G])([#b]?)(\d)$/);
       return { letter: m[1], accidental: m[2] || "", octave: parseInt(m[3], 10) };
@@ -236,10 +306,15 @@
 
     function drawStaff(svgId, notes, root, labelMode = false) {
       const svg = document.getElementById(svgId);
+      const STAFF_TOP = 84;
+      const STAFF_GAP = 14;
+      const STAFF_BOTTOM = STAFF_TOP + STAFF_GAP * 4;
+      const NOTE_X = 240;
+
       let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
 
       for (let i = 0; i < 5; i++) {
-        const y = 84 + i * 14;
+        const y = STAFF_TOP + i * STAFF_GAP;
         html += `<line x1="36" y1="${y}" x2="382" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
       }
 
@@ -247,21 +322,32 @@
 
       notes.forEach((note, index) => {
         const parsed = parseNote(note);
-        const x = 210 + index * 26;
+        const x = NOTE_X;
         const y = noteY(note);
-        const fill = note === root ? "#f2b632" : "#111";
+        const fill = note === root ? GOLD : BLUE;
 
         if (parsed.accidental) {
           const symbol = parsed.accidental === "#" ? "♯" : "♭";
           html += `<text x="${x - 24}" y="${y + 8}" font-size="38" font-family="serif" fill="${labelMode ? "#d13a2f" : "#111"}">${symbol}</text>`;
         }
 
+        if (y < STAFF_TOP) {
+          for (let ly = STAFF_TOP - STAFF_GAP; ly >= y; ly -= STAFF_GAP) {
+            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
+          }
+        }
+
+        if (y > STAFF_BOTTOM) {
+          for (let ly = STAFF_BOTTOM + STAFF_GAP; ly <= y; ly += STAFF_GAP) {
+            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
+          }
+        }
+
         html += `<ellipse cx="${x}" cy="${y}" rx="11" ry="8" fill="${fill}" transform="rotate(-20 ${x} ${y})"></ellipse>`;
-        html += `<line x1="${x + 10}" y1="${y}" x2="${x + 10}" y2="${y - 44}" stroke="#111" stroke-width="2"></line>`;
 
         if (labelMode) {
           const labels = ["Root", "Third", "Fifth"];
-          const lx = [x - 42, x - 12, x + 16][index] || x;
+          const lx = [x - 44, x - 10, x + 18][index] || x;
           const ly = [y + 34, y - 22, y + 34][index] || (y + 28);
           html += `<text x="${lx}" y="${ly}" font-size="14" fill="#d13a2f">${labels[index]}</text>`;
         }
@@ -307,7 +393,7 @@
         const x = startX + i * whiteWidth;
         const isActive = notes.includes(key.note);
         const isRoot = key.note === root;
-        const fill = isRoot ? "#f7d06a" : (isActive ? "#9fcfff" : "#f8f8f8");
+        const fill = isRoot ? "#f7d06a" : (isActive ? BLUE : "#f8f8f8");
         html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
       });
 
@@ -315,7 +401,7 @@
         const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
         const isActive = key.aliases.some(a => notes.includes(a));
         const isRoot = key.aliases.includes(root);
-        const fill = isRoot ? "#f2b632" : (isActive ? "#2d8be6" : "#33373d");
+        const fill = isRoot ? GOLD : (isActive ? BLUE : "#33373d");
         html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
       });
 
@@ -336,6 +422,13 @@
 
     drawStaff("bMinorStaff", ["B4", "D5", "F#5"], "B4");
     drawPiano("bMinorPiano", ["B4", "D5", "F#5"], "B4");
+
+    document.querySelectorAll(".play-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const notes = btn.dataset.notes.split(",");
+        playChord(notes);
+      });
+    });
   </script>
 </body>
 </html>
