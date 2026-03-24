@@ -280,7 +280,7 @@
         html += `<ellipse cx="${x}" cy="${y}" rx="8" ry="6" fill="none" stroke="${color}" stroke-width="2.4" transform="rotate(-20 ${x} ${y})"></ellipse>`;
 
         if (labelMode) {
-          const labels = ["Root", "Third", "Fifth"];
+          const labels = ["Root", "Fifth", "Third"];
           const lx = [x - 44, x - 10, x + 18][index] || x;
           const ly = [y + 34, y - 22, y + 34][index] || (y + 28);
           html += `<text x="${lx}" y="${ly}" font-size="14" fill="#d13a2f">${labels[index]}</text>`;
