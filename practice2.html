@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Major vs Minor Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #efefef;
+      margin: 0;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .app {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 6px;
+    }
+
+    .primary {
+      background: #2d8be6;
+      color: white;
+      border: none;
+    }
+
+    .choices button {
+      min-width: 120px;
+    }
+
+    #feedback {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    #result {
+      font-size: 1.3rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Major vs Minor</h1>
+
+    <div class="panel">
+      <button class="primary" id="playBtn">Play Chord</button>
+
+      <div class="choices">
+        <button onclick="answer('Major')">Major</button>
+        <button onclick="answer('Minor')">Minor</button>
+      </div>
+
+      <div id="feedback"></div>
+    </div>
+
+    <div class="panel">
+      <div id="progress"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    const noteToMidi = {
+      C4:60,"C#4":61,Db4:61,D4:62,"D#4":63,Eb4:63,E4:64,F4:65,
+      "F#4":66,Gb4:66,G4:67,"G#4":68,Ab4:68,A4:69,"A#4":70,Bb4:70,B4:71,
+      C5:72,"C#5":73,Db5:73,D5:74,"D#5":75,Eb5:75,E5:76,F5:77,
+      "F#5":78,Gb5:78,G5:79,"G#5":80,Ab5:80,A5:81,"A#5":82,Bb5:82,B5:83
+    };
+
+    const ALL_QUESTIONS = [
+      {notes:["C4","E4","G4"], type:"Major"},
+      {notes:["D4","F#4","A4"], type:"Major"},
+      {notes:["E4","G#4","B4"], type:"Major"},
+      {notes:["F4","A4","C5"], type:"Major"},
+      {notes:["G4","B4","D5"], type:"Major"},
+
+      {notes:["C4","Eb4","G4"], type:"Minor"},
+      {notes:["D4","F4","A4"], type:"Minor"},
+      {notes:["E4","G4","B4"], type:"Minor"},
+      {notes:["F4","Ab4","C5"], type:"Minor"},
+      {notes:["G4","Bb4","D5"], type:"Minor"}
+    ];
+
+    function shuffle(arr){
+      return arr.sort(()=>Math.random()-0.5);
+    }
+
+    const questions = shuffle([...ALL_QUESTIONS]);
+
+    let index = 0;
+    let score = 0;
+    let audioCtx = null;
+
+    function ensureAudio(){
+      if(!audioCtx){
+        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      }
+      if(audioCtx.state==="suspended"){
+        audioCtx.resume();
+      }
+    }
+
+    function midiToFreq(m){
+      return 440*Math.pow(2,(m-69)/12);
+    }
+
+    function playChord(notes){
+      ensureAudio();
+      notes.forEach(n=>{
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type="triangle";
+        osc.frequency.value = midiToFreq(noteToMidi[n]);
+
+        gain.gain.setValueAtTime(0.001,audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.2,audioCtx.currentTime+0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+1);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime+1);
+      });
+    }
+
+    function updateUI(){
+      document.getElementById("progress").textContent =
+        `Question ${index+1} / 10 | Score: ${score}`;
+    }
+
+    function answer(choice){
+      const correct = questions[index].type;
+
+      if(choice===correct){
+        score++;
+        document.getElementById("feedback").textContent = "Correct";
+        document.getElementById("feedback").style.color = "green";
+      } else {
+        document.getElementById("feedback").textContent =
+          `Wrong (Answer: ${correct})`;
+        document.getElementById("feedback").style.color = "red";
+      }
+
+      index++;
+
+      if(index===10){
+        finish();
+      } else {
+        updateUI();
+      }
+    }
+
+    function finish(){
+      const passed = score >= 8;
+
+      document.getElementById("result").innerHTML = passed
+        ? "✅ Passed! Next: Augmented / Diminished"
+        : "❌ Try again (Need 8/10)";
+
+      document.getElementById("progress").textContent =
+        `Final Score: ${score} / 10`;
+    }
+
+    document.getElementById("playBtn").onclick = () => {
+      playChord(questions[index].notes);
+    };
+
+    updateUI();
+  </script>
+</body>
+</html>
