@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Major vs Minor Practice</title>
+  <title>Major/Minor Practice</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="app">
-    <h1>Major vs Minor</h1>
+    <h1>Major or Minor?</h1>
 
     <div class="panel">
       <button class="primary" id="playBtn">Play Chord</button>
@@ -174,8 +174,8 @@
       const passed = score >= 8;
 
       document.getElementById("result").innerHTML = passed
-        ? "✅ Passed! Next: Augmented / Diminished"
-        : "❌ Try again (Need 8/10)";
+        ? "Passed! Next Module: Augmented/Diminished"
+        : "Try again (Need 8/10 to pass)";
 
       document.getElementById("progress").textContent =
         `Final Score: ${score} / 10`;
