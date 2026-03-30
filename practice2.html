@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Major/Minor Practice</title>
+  <title>Major vs Minor Practice</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -45,35 +45,53 @@
       min-width: 120px;
     }
 
+    #questionLabel {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
     #feedback {
       margin-top: 12px;
       font-weight: bold;
+      min-height: 24px;
     }
 
     #result {
       font-size: 1.3rem;
       margin-top: 10px;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="app">
-    <h1>Major or Minor?</h1>
+    <h1>Major vs Minor</h1>
 
     <div class="panel">
+      <div id="questionLabel">Question 1 of 10</div>
+
       <button class="primary" id="playBtn">Play Chord</button>
 
-      <div class="choices">
+      <div class="choices" id="choiceWrap">
         <button onclick="answer('Major')">Major</button>
         <button onclick="answer('Minor')">Minor</button>
       </div>
 
       <div id="feedback"></div>
+
+      <div id="nextWrap" class="hidden">
+        <button class="primary" id="nextBtn">Next</button>
+      </div>
     </div>
 
     <div class="panel">
       <div id="progress"></div>
       <div id="result"></div>
+      <div id="endButtons"></div>
     </div>
   </div>
 
@@ -99,93 +117,161 @@
       {notes:["G4","Bb4","D5"], type:"Minor"}
     ];
 
-    function shuffle(arr){
-      return arr.sort(()=>Math.random()-0.5);
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
     }
 
-    const questions = shuffle([...ALL_QUESTIONS]);
-
+    let questions = [];
     let index = 0;
     let score = 0;
     let audioCtx = null;
+    let answered = false;
 
-    function ensureAudio(){
-      if(!audioCtx){
-        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    const questionLabel = document.getElementById("questionLabel");
+    const progress = document.getElementById("progress");
+    const feedback = document.getElementById("feedback");
+    const result = document.getElementById("result");
+    const choiceWrap = document.getElementById("choiceWrap");
+    const nextWrap = document.getElementById("nextWrap");
+    const nextBtn = document.getElementById("nextBtn");
+    const endButtons = document.getElementById("endButtons");
+    const playBtn = document.getElementById("playBtn");
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
-      if(audioCtx.state==="suspended"){
+      if (audioCtx.state === "suspended") {
         audioCtx.resume();
       }
     }
 
-    function midiToFreq(m){
-      return 440*Math.pow(2,(m-69)/12);
+    function midiToFreq(m) {
+      return 440 * Math.pow(2, (m - 69) / 12);
     }
 
-    function playChord(notes){
+    function playChord(notes) {
       ensureAudio();
-      notes.forEach(n=>{
+      notes.forEach(n => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
 
-        osc.type="triangle";
+        osc.type = "triangle";
         osc.frequency.value = midiToFreq(noteToMidi[n]);
 
-        gain.gain.setValueAtTime(0.001,audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.2,audioCtx.currentTime+0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+1);
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.35, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
         osc.start();
-        osc.stop(audioCtx.currentTime+1);
+        osc.stop(audioCtx.currentTime + 1.2);
       });
     }
 
-    function updateUI(){
-      document.getElementById("progress").textContent =
-        `Question ${index+1} / 10 | Score: ${score}`;
+    function currentQuestion() {
+      return questions[index];
     }
 
-    function answer(choice){
-      const correct = questions[index].type;
+    function updateUI() {
+      questionLabel.textContent = `Question ${index + 1} of 10`;
+      progress.textContent = `Score: ${score} / 10`;
+    }
 
-      if(choice===correct){
+    function answer(choice) {
+      if (answered) return;
+
+      const correct = currentQuestion().type;
+      answered = true;
+
+      if (choice === correct) {
         score++;
-        document.getElementById("feedback").textContent = "Correct";
-        document.getElementById("feedback").style.color = "green";
+        feedback.textContent = "Correct";
+        feedback.style.color = "green";
       } else {
-        document.getElementById("feedback").textContent =
-          `Wrong (Answer: ${correct})`;
-        document.getElementById("feedback").style.color = "red";
+        feedback.textContent = `Wrong. Correct answer: ${correct}`;
+        feedback.style.color = "red";
       }
 
+      progress.textContent = `Score: ${score} / 10`;
+      choiceWrap.classList.add("hidden");
+      nextWrap.classList.remove("hidden");
+    }
+
+    function goNext() {
       index++;
 
-      if(index===10){
+      if (index >= 10) {
         finish();
+        return;
+      }
+
+      answered = false;
+      feedback.textContent = "";
+      choiceWrap.classList.remove("hidden");
+      nextWrap.classList.add("hidden");
+      updateUI();
+    }
+
+    function finish() {
+      const passed = score >= 8;
+
+      questionLabel.textContent = "Module Complete";
+      choiceWrap.classList.add("hidden");
+      nextWrap.classList.add("hidden");
+
+      progress.textContent = `Final Score: ${score} / 10`;
+      result.textContent = passed
+        ? "Passed! You can move on to Augmented / Diminished."
+        : "You did not pass. You need 8 out of 10 to continue.";
+
+      endButtons.innerHTML = "";
+
+      if (passed) {
+        const nextModuleBtn = document.createElement("button");
+        nextModuleBtn.className = "primary";
+        nextModuleBtn.textContent = "Next Module";
+        endButtons.appendChild(nextModuleBtn);
       } else {
-        updateUI();
+        const restartBtn = document.createElement("button");
+        restartBtn.className = "primary";
+        restartBtn.textContent = "Restart";
+        restartBtn.onclick = startModule;
+        endButtons.appendChild(restartBtn);
       }
     }
 
-    function finish(){
-      const passed = score >= 8;
+    function startModule() {
+      questions = shuffle(ALL_QUESTIONS);
+      index = 0;
+      score = 0;
+      answered = false;
 
-      document.getElementById("result").innerHTML = passed
-        ? "Passed! Next Module: Augmented/Diminished"
-        : "Try again (Need 8/10 to pass)";
+      feedback.textContent = "";
+      result.textContent = "";
+      endButtons.innerHTML = "";
+      choiceWrap.classList.remove("hidden");
+      nextWrap.classList.add("hidden");
 
-      document.getElementById("progress").textContent =
-        `Final Score: ${score} / 10`;
+      updateUI();
     }
 
-    document.getElementById("playBtn").onclick = () => {
-      playChord(questions[index].notes);
+    playBtn.onclick = () => {
+      if (index < questions.length) {
+        playChord(currentQuestion().notes);
+      }
     };
 
-    updateUI();
+    nextBtn.onclick = goNext;
+
+    startModule();
   </script>
 </body>
 </html>
