@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice 2 - Major vs Minor vs Augmented</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #efefef;
+      color: #222;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: #1f2937;
+      color: white;
+      padding: 20px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 18px;
+    }
+
+    .tab {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.08);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: #2d8be6;
+    }
+
+    .content {
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .practice-wrap {
+      width: 100%;
+      max-width: 820px;
+    }
+
+    .panel {
+      width: 100%;
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    button, .primary-link {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 6px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .primary-btn, .primary-link {
+      background: #2d8be6;
+      color: white;
+      border: none;
+    }
+
+    .choices button {
+      min-width: 150px;
+    }
+
+    #questionLabel {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    #feedback {
+      margin-top: 12px;
+      font-weight: bold;
+      min-height: 24px;
+    }
+
+    #result {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      min-height: 32px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .content {
+        min-height: auto;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Chord Modules</h2>
+      <a class="tab" href="lesson1.html">Lesson 1</a>
+      <a class="tab" href="practice1.html">Practice 1</a>
+      <a class="tab" href="lesson2.html">Lesson 2</a>
+      <a class="tab active" href="practice2.html">Practice 2</a>
+      <a class="tab" href="lesson3.html">Lesson 3</a>
+      <a class="tab" href="practice3.html">Practice 3</a>
+    </aside>
+
+    <main class="content">
+      <div class="practice-wrap">
+        <div class="panel">
+          <h1>Practice 2: Major vs Minor vs Augmented</h1>
+          <div id="questionLabel">Question 1 of 10</div>
+
+          <button class="primary-btn" id="playBtn">Play Chord</button>
+
+          <div class="choices" id="choiceWrap">
+            <button onclick="answer('Major')">Major</button>
+            <button onclick="answer('Minor')">Minor</button>
+            <button onclick="answer('Augmented')">Augmented</button>
+          </div>
+
+          <div id="feedback"></div>
+
+          <div id="nextWrap" class="hidden">
+            <button class="primary-btn" id="nextBtn">Next</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div id="progress"></div>
+          <div id="result"></div>
+          <div id="endButtons"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const noteToMidi = {
+      C4:60,"C#4":61,Db4:61,D4:62,"D#4":63,Eb4:63,E4:64,F4:65,
+      "F#4":66,Gb4:66,G4:67,"G#4":68,Ab4:68,A4:69,"A#4":70,Bb4:70,B4:71,
+      C5:72,"C#5":73,Db5:73,D5:74,"D#5":75,Eb5:75,E5:76,F5:77,
+      "F#5":78,Gb5:78,G5:79,"G#5":80,Ab5:80,A5:81,"A#5":82,Bb5:82,B5:83
+    };
+
+    const ALL_QUESTIONS = [
+      {notes:["C4","E4","G4"], type:"Major"},
+      {notes:["D4","F#4","A4"], type:"Major"},
+      {notes:["E4","G#4","B4"], type:"Major"},
+      {notes:["F4","A4","C5"], type:"Major"},
+
+      {notes:["C4","Eb4","G4"], type:"Minor"},
+      {notes:["D4","F4","A4"], type:"Minor"},
+      {notes:["E4","G4","B4"], type:"Minor"},
+      {notes:["F4","Ab4","C5"], type:"Minor"},
+
+      {notes:["C4","E4","G#4"], type:"Augmented"},
+      {notes:["D4","F#4","A#4"], type:"Augmented"},
+      {notes:["E4","G#4","C5"], type:"Augmented"},
+      {notes:["F4","A4","C#5"], type:"Augmented"}
+    ];
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    let questions = [];
+    let index = 0;
+    let score = 0;
+    let audioCtx = null;
+    let answered = false;
+
+    const questionLabel = document.getElementById("questionLabel");
+    const progress = document.getElementById("progress");
+    const feedback = document.getElementById("feedback");
+    const result = document.getElementById("result");
+    const choiceWrap = document.getElementById("choiceWrap");
+    const nextWrap = document.getElementById("nextWrap");
+    const nextBtn = document.getElementById("nextBtn");
+    const endButtons = document.getElementById("endButtons");
+    const playBtn = document.getElementById("playBtn");
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function midiToFreq(m) {
+      return 440 * Math.pow(2, (m - 69) / 12);
+    }
+
+    function playChord(notes) {
+      ensureAudio();
+      notes.forEach(n => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "triangle";
+        osc.frequency.value = midiToFreq(noteToMidi[n]);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.45, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.2);
+      });
+    }
+
+    function currentQuestion() {
+      return questions[index];
+    }
+
+    function updateUI() {
+      questionLabel.textContent = `Question ${index + 1} of 10`;
+      progress.textContent = `Score: ${score} / 10`;
+    }
+
+    function answer(choice) {
+      if (answered) return;
+
+      const correct = currentQuestion().type;
+      answered = true;
+
+      if (choice === correct) {
+        score++;
+        feedback.textContent = "Correct";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = `Wrong. Correct answer: ${correct}`;
+        feedback.style.color = "red";
+      }
+
+      progress.textContent = `Score: ${score} / 10`;
+      choiceWrap.classList.add("hidden");
+      nextWrap.classList.remove("hidden");
+    }
+
+    function goNext() {
+      index++;
+
+      if (index >= 10) {
+        finish();
+        return;
+      }
+
+      answered = false;
+      feedback.textContent = "";
+      choiceWrap.classList.remove("hidden");
+      nextWrap.classList.add("hidden");
+      updateUI();
+    }
+
+    function finish() {
+      const passed = score >= 8;
+
+      questionLabel.textContent = "Module Complete";
+      choiceWrap.classList.add("hidden");
+      nextWrap.classList.add("hidden");
+
+      progress.textContent = `Final Score: ${score} / 10`;
+      result.textContent = passed
+        ? "Passed! You can move on to Lesson 3."
+        : "You did not pass. You need 8 out of 10 to continue.";
+
+      endButtons.innerHTML = "";
+
+      if (passed) {
+        const nextModuleBtn = document.createElement("a");
+        nextModuleBtn.className = "primary-link";
+        nextModuleBtn.textContent = "Go to Lesson 3";
+        nextModuleBtn.href = "lesson3.html";
+        endButtons.appendChild(nextModuleBtn);
+      } else {
+        const restartBtn = document.createElement("button");
+        restartBtn.className = "primary-btn";
+        restartBtn.textContent = "Restart";
+        restartBtn.onclick = startModule;
+        endButtons.appendChild(restartBtn);
+      }
+    }
+
+    function startModule() {
+      questions = shuffle(ALL_QUESTIONS).slice(0, 10);
+      index = 0;
+      score = 0;
+      answered = false;
+
+      feedback.textContent = "";
+      result.textContent = "";
+      endButtons.innerHTML = "";
+      choiceWrap.classList.remove("hidden");
+      nextWrap.classList.add("hidden");
+
+      updateUI();
+    }
+
+    playBtn.onclick = () => {
+      if (index < questions.length) {
+        playChord(currentQuestion().notes);
+      }
+    };
+
+    nextBtn.onclick = goNext;
+
+    startModule();
+  </script>
+</body>
+</html>
