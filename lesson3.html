@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 3 - Diminished Triads</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -66,7 +64,7 @@
       padding: 32px 24px 60px;
     }
 
-    h1, h2 {
+    h1, h2, h3 {
       margin-top: 0;
     }
 
@@ -81,56 +79,58 @@
     }
 
     .section {
-      margin-bottom: 36px;
-    }
-
-    .example-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-      margin: 20px 0 12px;
+      margin-bottom: 28px;
     }
 
     .panel {
       background: white;
       border: 1px solid #d8d8d8;
       border-radius: 14px;
-      padding: 16px;
+      padding: 18px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      position: relative;
+      margin-bottom: 18px;
     }
 
-    .step-list {
-      margin: 10px 0 0 8px;
+    .audio-box {
+      background: #fff8c9;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 14px 0;
+      border: 1px solid #eadf8c;
     }
 
-    .caption {
-      font-size: 0.95rem;
-      color: #555;
-      margin-top: 8px;
+    .audio-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 10px 0;
     }
 
-    .play-wrap {
-      margin-top: 12px;
+    .label {
+      font-weight: bold;
+      min-width: 140px;
     }
 
-    .play-btn,
-    .nav-link {
+    button, .nav-link {
       display: inline-block;
       background: #2d8be6;
       color: white;
       text-decoration: none;
-      padding: 12px 18px;
+      padding: 10px 16px;
       border-radius: 10px;
       font-weight: bold;
       border: none;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.95rem;
+    }
+
+    ul, ol {
+      margin-top: 8px;
     }
 
     .nav-link-wrap {
-      margin-top: 36px;
+      margin-top: 28px;
       text-align: right;
     }
 
@@ -143,12 +143,6 @@
         width: 100%;
         height: auto;
         position: relative;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .example-row {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -168,77 +162,202 @@
     <main class="content">
       <div class="page">
         <h1>Diminished Triads</h1>
-        <div class="subtitle">Learn how diminished triads are built, then practice telling them apart from major and minor triads.</div>
+        <div class="subtitle">Lesson 3</div>
 
-        <div class="section">
+        <div class="panel section">
+          <h3>Objective</h3>
           <p>
-            A diminished triad is built with a minor third and a diminished fifth.
-            That means the top note is one half step lower than it would be in a minor triad.
+            By the end of this lesson, learners will be able to identify diminished triads by listening
+            and distinguish them from major, minor, and augmented triads.
           </p>
-          <ol class="step-list">
-            <li>Start on the root</li>
-            <li>Add a minor third: 3 half steps</li>
-            <li>Add a diminished fifth: 6 half steps</li>
-          </ol>
+
+          <h3>What Is a Diminished Triad?</h3>
+          <p>A diminished triad consists of:</p>
+          <ul>
+            <li>A root</li>
+            <li>A minor third</li>
+            <li>A diminished fifth (a lowered fifth)</li>
+          </ul>
+
+          <p>
+            Compared to a minor triad, only one note changes: the fifth is lowered.
+            This creates a more compressed and unstable sound.
+          </p>
+
+          <h3>Sound Characteristics</h3>
+          <p>Diminished triads are often described as:</p>
+          <ul>
+            <li>Very tense</li>
+            <li>Unstable</li>
+            <li>Compressed or tight</li>
+            <li>Dramatic or unsettling</li>
+          </ul>
+
+          <p>Compared to:</p>
+          <ul>
+            <li>Minor (dark but grounded)</li>
+            <li>Augmented (open but unstable)</li>
+          </ul>
+
+          <p>Diminished chords tend to feel more constrained and intense.</p>
         </div>
 
-        <div class="section">
-          <h2>C diminished</h2>
-          <p>
-            To build C diminished, start on C. Count 3 half steps to E♭, then 6 half steps to G♭.
-            The triad is C–E♭–G♭.
-          </p>
-
-          <div class="example-row">
-            <div class="panel">
-              <svg id="cDimStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">C–E♭–G♭</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','Eb4','Gb4'])">Play C Diminished</button>
-              </div>
+        <div class="panel section">
+          <h3>Guided Listening Sequence</h3>
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 1A</div>
+              <div>Root → perfect fifth (separate notes)</div>
+              <button onclick="playSequence(['C4','G4'])">Play</button>
             </div>
-            <div class="panel">
-              <svg id="cDimPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">The fifth is lowered compared to C minor.</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','Eb4','Gb4'])">Play C Diminished</button>
-              </div>
+            <div class="audio-line">
+              <div class="label">Sound 1B</div>
+              <div>Root → diminished fifth (separate notes)</div>
+              <button onclick="playSequence(['C4','Gb4'])">Play</button>
             </div>
           </div>
+
+          <p><strong>Instructions to learner:</strong> Listen to each pair:</p>
+          <ul>
+            <li>How does the distance between the notes change?</li>
+            <li>Does the second version feel closer or more compressed?</li>
+            <li>Does it sound more severe?</li>
+          </ul>
         </div>
 
-        <div class="section">
-          <h2>D diminished</h2>
-          <p>
-            To build D diminished, start on D. Count 3 half steps to F, then 6 half steps to A♭.
-            The triad is D–F–A♭.
-          </p>
-
-          <div class="example-row">
-            <div class="panel">
-              <svg id="dDimStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">D–F–A♭</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['D4','F4','Ab4'])">Play D Diminished</button>
-              </div>
+        <div class="panel section">
+          <h3>Minor vs. Diminished (Single Change)</h3>
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 2A</div>
+              <div>Minor triad (root, minor third, perfect fifth)</div>
+              <button onclick="playChord(['C4','Eb4','G4'])">Play</button>
             </div>
-            <div class="panel">
-              <svg id="dDimPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">Another example of a diminished triad.</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['D4','F4','Ab4'])">Play D Diminished</button>
-              </div>
+            <div class="audio-line">
+              <div class="label">Sound 2B</div>
+              <div>Diminished triad (same root and third, lowered fifth)</div>
+              <button onclick="playChord(['C4','Eb4','Gb4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Play Both</div>
+              <div>Compare back-to-back</div>
+              <button onclick="playSequence(['C4','Eb4','G4'], true, 1.1, 0.18); setTimeout(()=>playSequence(['C4','Eb4','Gb4'], true, 1.1, 0.18), 1400);">Play Pair</button>
             </div>
           </div>
+
+          <ul>
+            <li>The first should sound dark but stable.</li>
+            <li>The second should sound more tense or unstable.</li>
+            <li>Focus on how the top note changes the overall character.</li>
+          </ul>
         </div>
 
-        <div class="section">
-          <h2>General rule</h2>
-          <ol>
-            <li>Major = 4, 7</li>
-            <li>Minor = 3, 7</li>
-            <li>Diminished = 3, 6</li>
-          </ol>
+        <div class="panel section">
+          <h3>Building the Diminished Triad</h3>
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 3A</div>
+              <div>Root alone</div>
+              <button onclick="playNote('C4')">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 3B</div>
+              <div>Root + minor third</div>
+              <button onclick="playChord(['C4','Eb4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 3C</div>
+              <div>Full diminished triad</div>
+              <button onclick="playChord(['C4','Eb4','Gb4'])">Play</button>
+            </div>
+          </div>
+
+          <ul>
+            <li>Notice that the first two notes resemble a minor chord.</li>
+            <li>Pay attention to how the final note changes the sound.</li>
+            <li>Ask: does the chord feel stable or especially tense?</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Triad Comparison (All Four Types)</h3>
+          <p><strong>Purpose:</strong> Strengthen discrimination across all learned chord types.</p>
+
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 4A</div>
+              <div>Major triad</div>
+              <button onclick="playChord(['C4','E4','G4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 4B</div>
+              <div>Minor triad</div>
+              <button onclick="playChord(['C4','Eb4','G4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 4C</div>
+              <div>Augmented triad</div>
+              <button onclick="playChord(['C4','E4','G#4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 4D</div>
+              <div>Diminished triad</div>
+              <button onclick="playChord(['C4','Eb4','Gb4'])">Play</button>
+            </div>
+          </div>
+
+          <p>Listen to all four:</p>
+          <ul>
+            <li>Which sounds most stable? (major)</li>
+            <li>Which sounds darker but still grounded? (minor)</li>
+            <li>Which sounds open but unstable? (augmented)</li>
+            <li>Which sounds most tense or compressed? (diminished)</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Reflection Before Identification</h3>
+          <div class="audio-box">
+            <p><strong>For each trial:</strong></p>
+            <div class="audio-line">
+              <div class="label">Sound 5A</div>
+              <div>Notes played separately</div>
+              <button onclick="playSequence(['C4','Eb4','Gb4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 5B</div>
+              <div>Full chord</div>
+              <button onclick="playChord(['C4','Eb4','Gb4'])">Play</button>
+            </div>
+          </div>
+
+          <p><strong>Before answering:</strong></p>
+          <ul>
+            <li>Did the chord sound especially tense or unstable?</li>
+            <li>Did it feel more compressed than a minor chord?</li>
+            <li>Can you identify the lowered fifth from the isolated notes?</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Listening Strategy for Learners</h3>
+          <ul>
+            <li>First, decide if the chord feels stable or unstable.</li>
+            <li>If highly tense and compressed, consider diminished.</li>
+            <li>Compare mentally to minor: does this feel darker and more unstable?</li>
+            <li>Use both the isolated notes and the full chord to confirm.</li>
+          </ul>
+
+          <h3>Practice Guidance</h3>
+          <p>
+            Learners often confuse diminished with minor at first because both contain a minor third.
+          </p>
+          <p><strong>Emphasize:</strong></p>
+          <ul>
+            <li>The diminished fifth as the defining feature</li>
+            <li>The increased tension and instability</li>
+            <li>Repeated comparison with minor triads</li>
+          </ul>
         </div>
 
         <div class="nav-link-wrap">
@@ -249,9 +368,6 @@
   </div>
 
   <script>
-    const BLUE = "#2d8be6";
-    const GOLD = "#f2b632";
-
     const noteToMidi = {
       C4:60,"C#4":61,Db4:61,D4:62,"D#4":63,Eb4:63,E4:64,F4:65,
       "F#4":66,Gb4:66,G4:67,"G#4":68,Ab4:68,A4:69,"A#4":70,Bb4:70,B4:71,
@@ -262,155 +378,46 @@
     let audioCtx = null;
 
     function ensureAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
     }
 
-    function midiToFreq(m) {
-      return 440 * Math.pow(2, (m - 69) / 12);
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
     }
 
-    function playChord(notes) {
+    function playNote(note, duration = 0.9, delay = 0) {
       ensureAudio();
-      notes.forEach(n => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = "triangle";
-        osc.frequency.value = midiToFreq(noteToMidi[n]);
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.35, audioCtx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1.2);
-      });
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const start = audioCtx.currentTime + delay;
+
+      osc.type = "triangle";
+      osc.frequency.value = midiToFreq(noteToMidi[note]);
+
+      gain.gain.setValueAtTime(0.001, start);
+      gain.gain.exponentialRampToValueAtTime(0.28, start + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(start);
+      osc.stop(start + duration);
     }
 
-    function parseNote(note) {
-      const m = note.match(/^([A-G])([#b]?)(\d)$/);
-      return { letter: m[1], accidental: m[2] || "", octave: parseInt(m[3], 10) };
+    function playChord(notes, duration = 1.1, delay = 0) {
+      notes.forEach(note => playNote(note, duration, delay));
     }
 
-    function noteStepIndex(noteName) {
-      const order = ["C", "D", "E", "F", "G", "A", "B"];
-      const n = parseNote(noteName);
-      return n.octave * 7 + order.indexOf(n.letter);
-    }
-
-    function noteY(noteName) {
-      const step = noteStepIndex(noteName);
-      const e4 = noteStepIndex("E4");
-      const spacing = 12;
-      return 150 - ((step - e4) * (spacing / 2));
-    }
-
-    function drawStaff(svgId, notes, root) {
-      const svg = document.getElementById(svgId);
-      const STAFF_TOP = 84;
-      const STAFF_GAP = 14;
-      const STAFF_BOTTOM = STAFF_TOP + STAFF_GAP * 4;
-      const NOTE_X = 240;
-
-      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
-
-      for (let i = 0; i < 5; i++) {
-        const y = STAFF_TOP + i * STAFF_GAP;
-        html += `<line x1="36" y1="${y}" x2="382" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
+    function playSequence(notes, asChord = false, noteDuration = 0.8, gap = 0.15) {
+      if (asChord) {
+        playChord(notes, noteDuration);
+        return;
       }
-
-      html += `<text x="52" y="138" font-size="96" font-family="serif">𝄞</text>`;
-
-      notes.forEach(note => {
-        const parsed = parseNote(note);
-        const x = NOTE_X;
-        const y = noteY(note);
-        const color = note === root ? GOLD : BLUE;
-
-        if (parsed.accidental) {
-          const symbol = parsed.accidental === "#" ? "♯" : "♭";
-          html += `<text x="${x - 18}" y="${y + 6}" font-size="28" font-family="serif" fill="#111">${symbol}</text>`;
-        }
-
-        if (y < STAFF_TOP) {
-          for (let ly = STAFF_TOP - STAFF_GAP; ly >= y; ly -= STAFF_GAP) {
-            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
-          }
-        }
-
-        if (y > STAFF_BOTTOM) {
-          for (let ly = STAFF_BOTTOM + STAFF_GAP; ly <= y; ly += STAFF_GAP) {
-            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
-          }
-        }
-
-        html += `<ellipse cx="${x}" cy="${y}" rx="8" ry="6" fill="none" stroke="${color}" stroke-width="2.4" transform="rotate(-20 ${x} ${y})"></ellipse>`;
+      notes.forEach((note, i) => {
+        playNote(note, noteDuration, i * (noteDuration + gap));
       });
-
-      svg.innerHTML = html;
     }
-
-    function createPianoData() {
-      const whites = [
-        { note: "C4" }, { note: "D4" }, { note: "E4" }, { note: "F4" }, { note: "G4" }, { note: "A4" }, { note: "B4" },
-        { note: "C5" }, { note: "D5" }, { note: "E5" }, { note: "F5" }, { note: "G5" }, { note: "A5" }, { note: "B5" }
-      ];
-
-      const blacks = [
-        { aliases: ["C#4", "Db4"], afterWhite: 0 },
-        { aliases: ["D#4", "Eb4"], afterWhite: 1 },
-        { aliases: ["F#4", "Gb4"], afterWhite: 3 },
-        { aliases: ["G#4", "Ab4"], afterWhite: 4 },
-        { aliases: ["A#4", "Bb4"], afterWhite: 5 },
-        { aliases: ["C#5", "Db5"], afterWhite: 7 },
-        { aliases: ["D#5", "Eb5"], afterWhite: 8 },
-        { aliases: ["F#5", "Gb5"], afterWhite: 10 },
-        { aliases: ["G#5", "Ab5"], afterWhite: 11 },
-        { aliases: ["A#5", "Bb5"], afterWhite: 12 }
-      ];
-
-      return { whites, blacks };
-    }
-
-    function drawPiano(svgId, notes, root) {
-      const svg = document.getElementById(svgId);
-      const { whites, blacks } = createPianoData();
-      const whiteWidth = 24;
-      const whiteHeight = 160;
-      const blackWidth = 14;
-      const blackHeight = 92;
-      const startX = 34;
-      const startY = 24;
-      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
-
-      whites.forEach((key, i) => {
-        const x = startX + i * whiteWidth;
-        const isActive = notes.includes(key.note);
-        const isRoot = key.note === root;
-        const fill = isRoot ? "#f7d06a" : (isActive ? BLUE : "#f8f8f8");
-        html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
-      });
-
-      blacks.forEach((key) => {
-        const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
-        const isActive = key.aliases.some(a => notes.includes(a));
-        const isRoot = key.aliases.includes(root);
-        const fill = isRoot ? GOLD : (isActive ? BLUE : "#33373d");
-        html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
-      });
-
-      svg.innerHTML = html;
-    }
-
-    drawStaff("cDimStaff", ["C4","Eb4","Gb4"], "C4");
-    drawPiano("cDimPiano", ["C4","Eb4","Gb4"], "C4");
-
-    drawStaff("dDimStaff", ["D4","F4","Ab4"], "D4");
-    drawPiano("dDimPiano", ["D4","F4","Ab4"], "D4");
   </script>
 </body>
 </html>
