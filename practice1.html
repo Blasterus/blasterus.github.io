@@ -57,16 +57,26 @@
 
     .content {
       flex: 1;
-      padding: 28px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .practice-wrap {
+      width: 100%;
+      max-width: 820px;
     }
 
     .panel {
-      max-width: 800px;
+      width: 100%;
       background: white;
       border-radius: 14px;
       padding: 22px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       margin-bottom: 20px;
+      text-align: center;
     }
 
     button, .primary-link {
@@ -122,6 +132,11 @@
         height: auto;
         position: relative;
       }
+
+      .content {
+        min-height: auto;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -138,28 +153,30 @@
     </aside>
 
     <main class="content">
-      <div class="panel">
-        <h1>Practice 1: Major vs Minor</h1>
-        <div id="questionLabel">Question 1 of 10</div>
+      <div class="practice-wrap">
+        <div class="panel">
+          <h1>Practice 1: Major vs Minor</h1>
+          <div id="questionLabel">Question 1 of 10</div>
 
-        <button class="primary-btn" id="playBtn">Play Chord</button>
+          <button class="primary-btn" id="playBtn">Play Chord</button>
 
-        <div class="choices" id="choiceWrap">
-          <button onclick="answer('Major')">Major</button>
-          <button onclick="answer('Minor')">Minor</button>
+          <div class="choices" id="choiceWrap">
+            <button onclick="answer('Major')">Major</button>
+            <button onclick="answer('Minor')">Minor</button>
+          </div>
+
+          <div id="feedback"></div>
+
+          <div id="nextWrap" class="hidden">
+            <button class="primary-btn" id="nextBtn">Next</button>
+          </div>
         </div>
 
-        <div id="feedback"></div>
-
-        <div id="nextWrap" class="hidden">
-          <button class="primary-btn" id="nextBtn">Next</button>
+        <div class="panel">
+          <div id="progress"></div>
+          <div id="result"></div>
+          <div id="endButtons"></div>
         </div>
-      </div>
-
-      <div class="panel">
-        <div id="progress"></div>
-        <div id="result"></div>
-        <div id="endButtons"></div>
       </div>
     </main>
   </div>
