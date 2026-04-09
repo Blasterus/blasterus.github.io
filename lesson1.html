@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lesson 1 - Triads</title>
+  <title>Lesson 1 - Major and Minor Triads</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -81,56 +79,58 @@
     }
 
     .section {
-      margin-bottom: 36px;
-    }
-
-    .example-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-      margin: 20px 0 12px;
+      margin-bottom: 28px;
     }
 
     .panel {
       background: white;
       border: 1px solid #d8d8d8;
       border-radius: 14px;
-      padding: 16px;
+      padding: 18px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      position: relative;
+      margin-bottom: 18px;
     }
 
-    .bullet-list, .step-list {
-      margin: 10px 0 0 8px;
+    .audio-box {
+      background: #fff8c9;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 14px 0;
+      border: 1px solid #eadf8c;
     }
 
-    .caption {
-      font-size: 0.95rem;
-      color: #555;
-      margin-top: 8px;
+    .audio-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 10px 0;
     }
 
-    .play-wrap {
-      margin-top: 12px;
+    .label {
+      font-weight: bold;
+      min-width: 140px;
     }
 
-    .play-btn,
-    .nav-link {
+    button, .nav-link {
       display: inline-block;
       background: #2d8be6;
       color: white;
       text-decoration: none;
-      padding: 12px 18px;
+      padding: 10px 16px;
       border-radius: 10px;
       font-weight: bold;
       border: none;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.95rem;
+    }
+
+    ul, ol {
+      margin-top: 8px;
     }
 
     .nav-link-wrap {
-      margin-top: 36px;
+      margin-top: 28px;
       text-align: right;
     }
 
@@ -143,12 +143,6 @@
         width: 100%;
         height: auto;
         position: relative;
-      }
-    }
-
-    @media (max-width: 800px) {
-      .example-row {
-        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -167,155 +161,154 @@
 
     <main class="content">
       <div class="page">
-        <h1>Triads</h1>
-        <div class="section">
+        <h1>Major and Minor Triads</h1>
+        <div class="subtitle">Lesson 1</div>
+
+        <div class="panel section">
+          <h3>Objective</h3>
           <p>
-            A chord is made up of three or more notes played together, all built from a single starting note called the root.
-            In this lesson, we focus on triads, which consist of three notes:
+            By the end of this lesson, learners will be able to identify major and minor triads by listening,
+            using both analytical (note-by-note) and intuitive (holistic sound) strategies.
           </p>
-          <ul class="bullet-list">
-            <li>Root</li>
-            <li>Third</li>
-            <li>Fifth</li>
-          </ul>
 
-          <div class="example-row">
-            <div class="panel">
-              <svg id="triadStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">A triad stacks the root, third, and fifth.</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','E4','G4'])">Play Chord</button>
-              </div>
-            </div>
-            <div class="panel">
-              <svg id="triadPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="caption">The same chord can also be shown on a piano keyboard.</div>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','E4','G4'])">Play Chord</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Major triads</h2>
+          <h3>What Is a Triad?</h3>
           <p>
-            A major triad is formed by adding a major third and a perfect fifth above the root.
-            To build a C major triad, start on C, then count 4 half steps up to E and 7 half steps up to G.
-            The triad is C–E–G.
+            A triad consists of three notes: root, third, and fifth. The difference between major and minor
+            lies in the distance between the root and the third.
           </p>
 
-          <div class="example-row">
-            <div class="panel">
-              <svg id="majorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','E4','G4'])">Play C Major</button>
-              </div>
-            </div>
-            <div class="panel">
-              <svg id="majorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','E4','G4'])">Play C Major</button>
-              </div>
-            </div>
-          </div>
-
-          <ul class="step-list">
-            <li>Start on C</li>
-            <li>+4 half steps → E</li>
-            <li>+7 half steps → G</li>
-          </ul>
-
-          <p style="margin-top:20px;">
-            For an E♭ major triad, begin with E♭ as the root. Count up 4 half steps to get G,
-            and 7 half steps to get B♭. The triad is E♭–G–B♭.
-          </p>
-
-          <div class="example-row">
-            <div class="panel">
-              <svg id="ebMajorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['Eb4','G4','Bb4'])">Play E♭ Major</button>
-              </div>
-            </div>
-            <div class="panel">
-              <svg id="ebMajorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['Eb4','G4','Bb4'])">Play E♭ Major</button>
-              </div>
-            </div>
-          </div>
-
-          <ul class="step-list">
-            <li>Start on E♭</li>
-            <li>+4 half steps → G</li>
-            <li>+7 half steps → B♭</li>
+          <h3>Major and Minor Triads</h3>
+          <ul>
+            <li>A major triad contains a larger interval (major third) above the root and is typically perceived as bright and stable.</li>
+            <li>A minor triad contains a smaller interval (minor third) and is often perceived as darker or more tense.</li>
           </ul>
         </div>
 
-        <div class="section">
-          <h2>Minor triads</h2>
-          <p>
-            Minor triads are built differently: they use a minor third and a perfect fifth.
-            To build a C minor triad, start on C, count 3 half steps up to E♭, and 7 half steps up to G.
-            The triad is C–E♭–G.
-          </p>
-
-          <div class="example-row">
-            <div class="panel">
-              <svg id="minorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','Eb4','G4'])">Play C Minor</button>
-              </div>
+        <div class="panel section">
+          <h3>Guided Listening Sequence</h3>
+          <h3>Audio Placement</h3>
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 1A</div>
+              <div>Root note → major third (played separately, ascending)</div>
+              <button onclick="playSequence(['C4','E4'])">Play</button>
             </div>
-            <div class="panel">
-              <svg id="minorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['C4','Eb4','G4'])">Play C Minor</button>
-              </div>
+            <div class="audio-line">
+              <div class="label">Sound 1B</div>
+              <div>Root note → minor third (played separately, ascending)</div>
+              <button onclick="playSequence(['C4','Eb4'])">Play</button>
             </div>
           </div>
 
-          <ul class="step-list">
-            <li>Start on C</li>
-            <li>+3 half steps → E♭</li>
-            <li>+7 half steps → G</li>
-          </ul>
-
-          <p style="margin-top:20px;">
-            For a B minor triad, start on B. Count 3 half steps up to D and 7 half steps up to F♯.
-            The triad is B–D–F♯.
-          </p>
-
-          <div class="example-row">
-            <div class="panel">
-              <svg id="bMinorStaff" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['B4','D5','F#5'])">Play B Minor</button>
-              </div>
-            </div>
-            <div class="panel">
-              <svg id="bMinorPiano" width="100%" height="220" viewBox="0 0 420 220"></svg>
-              <div class="play-wrap">
-                <button class="play-btn" onclick="playChord(['B4','D5','F#5'])">Play B Minor</button>
-              </div>
-            </div>
-          </div>
-
-          <ul class="step-list">
-            <li>Start on B</li>
-            <li>+3 half steps → D</li>
-            <li>+7 half steps → F♯</li>
+          <p>Listen to each pair of notes. Focus on the distance between them.</p>
+          <ul>
+            <li>Does the second note feel farther away or closer?</li>
+            <li>How does the second note change the character of the first?</li>
           </ul>
         </div>
 
-        <div class="section">
-          <h2>General rule</h2>
-          <ol>
-            <li>Start on the root</li>
-            <li>Choose major (4) or minor (3) for the third</li>
-            <li>Add the fifth (7)</li>
-          </ol>
+        <div class="panel section">
+          <h3>Building the Triad Step-by-Step</h3>
+          <h3>Audio Placement</h3>
+          <div class="audio-box">
+            <p><strong>For each example:</strong></p>
+
+            <div class="audio-line">
+              <div class="label">Sound 2A</div>
+              <div>Root alone</div>
+              <button onclick="playNote('C4')">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 2B</div>
+              <div>Root + third (harmonic or melodic)</div>
+              <button onclick="playChord(['C4','E4'])">Play Major Pair</button>
+              <button onclick="playChord(['C4','Eb4'])">Play Minor Pair</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 2C</div>
+              <div>Full triad (root, third, fifth together)</div>
+              <button onclick="playChord(['C4','E4','G4'])">Play C Major</button>
+              <button onclick="playChord(['C4','Eb4','G4'])">Play C Minor</button>
+            </div>
+          </div>
+
+          <p><strong>Provide:</strong></p>
+          <ul>
+            <li>One major example</li>
+            <li>One minor example (same root and fifth)</li>
+          </ul>
+
+          <p><strong>As you listen:</strong></p>
+          <ul>
+            <li>Notice how adding the third changes the sound.</li>
+            <li>Then notice how the full chord feels when complete.</li>
+            <li>Ask: does the final chord sound bright or dark?</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Direct Comparison</h3>
+          <h3>Audio Placement</h3>
+          <div class="audio-box">
+            <div class="audio-line">
+              <div class="label">Sound 3A</div>
+              <div>Major triad</div>
+              <button onclick="playChord(['C4','E4','G4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 3B</div>
+              <div>Minor triad (same root)</div>
+              <button onclick="playChord(['C4','Eb4','G4'])">Play</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Play Both</div>
+              <div>Compare back-to-back</div>
+              <button onclick="playSequence(['C4','E4','G4'], true, 1.1, 0.18); setTimeout(()=>playSequence(['C4','Eb4','G4'], true, 1.1, 0.18), 1400);">Play Pair</button>
+            </div>
+          </div>
+
+          <ul>
+            <li>Which sounds brighter?</li>
+            <li>Which sounds more subdued?</li>
+            <li>Focus on the overall quality rather than individual notes.</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Reflection Before Identification</h3>
+          <h3>Audio Placement</h3>
+          <div class="audio-box">
+            <p><strong>For each trial:</strong></p>
+            <div class="audio-line">
+              <div class="label">Sound 4A</div>
+              <div>Three notes played separately</div>
+              <button onclick="playSequence(['C4','E4','G4'])">Major Notes</button>
+              <button onclick="playSequence(['C4','Eb4','G4'])">Minor Notes</button>
+            </div>
+            <div class="audio-line">
+              <div class="label">Sound 4B</div>
+              <div>Same notes as chord</div>
+              <button onclick="playChord(['C4','E4','G4'])">Major Chord</button>
+              <button onclick="playChord(['C4','Eb4','G4'])">Minor Chord</button>
+            </div>
+          </div>
+
+          <p><strong>Before answering:</strong></p>
+          <ul>
+            <li>Recall how the second note related to the first.</li>
+            <li>Connect that to how the full chord sounds.</li>
+            <li>Make a judgment: major or minor.</li>
+          </ul>
+        </div>
+
+        <div class="panel section">
+          <h3>Listening Strategy for Learners</h3>
+          <ul>
+            <li>Start with the interval (first two notes).</li>
+            <li>Then confirm with the full chord sound.</li>
+            <li>Trust your first impression when possible.</li>
+            <li>Use consistent mental labels like bright vs. dark to reinforce memory.</li>
+          </ul>
         </div>
 
         <div class="nav-link-wrap">
@@ -326,9 +319,6 @@
   </div>
 
   <script>
-    const BLUE = "#2d8be6";
-    const GOLD = "#f2b632";
-
     const noteToMidi = {
       C4:60,"C#4":61,Db4:61,D4:62,"D#4":63,Eb4:63,E4:64,F4:65,
       "F#4":66,Gb4:66,G4:67,"G#4":68,Ab4:68,A4:69,"A#4":70,Bb4:70,B4:71,
@@ -339,175 +329,46 @@
     let audioCtx = null;
 
     function ensureAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === "suspended") {
-        audioCtx.resume();
-      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
     }
 
-    function midiToFreq(m) {
-      return 440 * Math.pow(2, (m - 69) / 12);
+    function midiToFreq(midi) {
+      return 440 * Math.pow(2, (midi - 69) / 12);
     }
 
-    function playChord(notes) {
+    function playNote(note, duration = 0.9, delay = 0) {
       ensureAudio();
-      notes.forEach(n => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const start = audioCtx.currentTime + delay;
 
-        osc.type = "triangle";
-        osc.frequency.value = midiToFreq(noteToMidi[n]);
+      osc.type = "triangle";
+      osc.frequency.value = midiToFreq(noteToMidi[note]);
 
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.35, audioCtx.currentTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+      gain.gain.setValueAtTime(0.001, start);
+      gain.gain.exponentialRampToValueAtTime(0.28, start + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
 
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1.2);
-      });
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(start);
+      osc.stop(start + duration);
     }
 
-    function parseNote(note) {
-      const m = note.match(/^([A-G])([#b]?)(\d)$/);
-      return { letter: m[1], accidental: m[2] || "", octave: parseInt(m[3], 10) };
+    function playChord(notes, duration = 1.1, delay = 0) {
+      notes.forEach(note => playNote(note, duration, delay));
     }
 
-    function noteStepIndex(noteName) {
-      const order = ["C", "D", "E", "F", "G", "A", "B"];
-      const n = parseNote(noteName);
-      return n.octave * 7 + order.indexOf(n.letter);
-    }
-
-    function noteY(noteName) {
-      const step = noteStepIndex(noteName);
-      const e4 = noteStepIndex("E4");
-      const spacing = 12;
-      return 150 - ((step - e4) * (spacing / 2));
-    }
-
-    function drawStaff(svgId, notes, root, labelMode = false) {
-      const svg = document.getElementById(svgId);
-      const STAFF_TOP = 84;
-      const STAFF_GAP = 14;
-      const STAFF_BOTTOM = STAFF_TOP + STAFF_GAP * 4;
-      const NOTE_X = 240;
-
-      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
-
-      for (let i = 0; i < 5; i++) {
-        const y = STAFF_TOP + i * STAFF_GAP;
-        html += `<line x1="36" y1="${y}" x2="382" y2="${y}" stroke="#333" stroke-width="1.2"></line>`;
+    function playSequence(notes, asChord = false, noteDuration = 0.8, gap = 0.15) {
+      if (asChord) {
+        playChord(notes, noteDuration);
+        return;
       }
-
-      html += `<text x="52" y="138" font-size="96" font-family="serif">𝄞</text>`;
-
-      notes.forEach((note, index) => {
-        const parsed = parseNote(note);
-        const x = NOTE_X;
-        const y = noteY(note);
-        const color = note === root ? GOLD : BLUE;
-
-        if (parsed.accidental) {
-          const symbol = parsed.accidental === "#" ? "♯" : "♭";
-          html += `<text x="${x - 18}" y="${y + 6}" font-size="28" font-family="serif" fill="#111">${symbol}</text>`;
-        }
-
-        if (y < STAFF_TOP) {
-          for (let ly = STAFF_TOP - STAFF_GAP; ly >= y; ly -= STAFF_GAP) {
-            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
-          }
-        }
-
-        if (y > STAFF_BOTTOM) {
-          for (let ly = STAFF_BOTTOM + STAFF_GAP; ly <= y; ly += STAFF_GAP) {
-            html += `<line x1="${x - 16}" y1="${ly}" x2="${x + 16}" y2="${ly}" stroke="#333" stroke-width="1.2"></line>`;
-          }
-        }
-
-        html += `<ellipse cx="${x}" cy="${y}" rx="8" ry="6" fill="none" stroke="${color}" stroke-width="2.4" transform="rotate(-20 ${x} ${y})"></ellipse>`;
-
-        if (labelMode) {
-          const labels = ["Root", "Fifth", "Third"];
-          const lx = [x - 44, x - 10, x + 18][index] || x;
-          const ly = [y + 34, y - 22, y + 34][index] || (y + 28);
-          html += `<text x="${lx}" y="${ly}" font-size="14" fill="#d13a2f">${labels[index]}</text>`;
-        }
+      notes.forEach((note, i) => {
+        playNote(note, noteDuration, i * (noteDuration + gap));
       });
-
-      svg.innerHTML = html;
     }
-
-    function createPianoData() {
-      const whites = [
-        { note: "C4" }, { note: "D4" }, { note: "E4" }, { note: "F4" }, { note: "G4" }, { note: "A4" }, { note: "B4" },
-        { note: "C5" }, { note: "D5" }, { note: "E5" }, { note: "F5" }, { note: "G5" }, { note: "A5" }, { note: "B5" }
-      ];
-
-      const blacks = [
-        { aliases: ["C#4", "Db4"], afterWhite: 0 },
-        { aliases: ["D#4", "Eb4"], afterWhite: 1 },
-        { aliases: ["F#4", "Gb4"], afterWhite: 3 },
-        { aliases: ["G#4", "Ab4"], afterWhite: 4 },
-        { aliases: ["A#4", "Bb4"], afterWhite: 5 },
-        { aliases: ["C#5", "Db5"], afterWhite: 7 },
-        { aliases: ["D#5", "Eb5"], afterWhite: 8 },
-        { aliases: ["F#5", "Gb5"], afterWhite: 10 },
-        { aliases: ["G#5", "Ab5"], afterWhite: 11 },
-        { aliases: ["A#5", "Bb5"], afterWhite: 12 }
-      ];
-
-      return { whites, blacks };
-    }
-
-    function drawPiano(svgId, notes, root) {
-      const svg = document.getElementById(svgId);
-      const { whites, blacks } = createPianoData();
-      const whiteWidth = 24;
-      const whiteHeight = 160;
-      const blackWidth = 14;
-      const blackHeight = 92;
-      const startX = 34;
-      const startY = 24;
-      let html = `<rect x="0" y="0" width="420" height="220" rx="12" fill="#fff"></rect>`;
-
-      whites.forEach((key, i) => {
-        const x = startX + i * whiteWidth;
-        const isActive = notes.includes(key.note);
-        const isRoot = key.note === root;
-        const fill = isRoot ? "#f7d06a" : (isActive ? BLUE : "#f8f8f8");
-        html += `<rect x="${x}" y="${startY}" width="${whiteWidth}" height="${whiteHeight}" rx="4" fill="${fill}" stroke="#999"></rect>`;
-      });
-
-      blacks.forEach((key) => {
-        const x = startX + (key.afterWhite + 1) * whiteWidth - (blackWidth / 2);
-        const isActive = key.aliases.some(a => notes.includes(a));
-        const isRoot = key.aliases.includes(root);
-        const fill = isRoot ? GOLD : (isActive ? BLUE : "#33373d");
-        html += `<rect x="${x}" y="${startY}" width="${blackWidth}" height="${blackHeight}" rx="3" fill="${fill}" stroke="#222"></rect>`;
-      });
-
-      svg.innerHTML = html;
-    }
-
-    drawStaff("triadStaff", ["C4", "E4", "G4"], "C4", true);
-    drawPiano("triadPiano", ["C4", "E4", "G4"], "C4");
-
-    drawStaff("majorStaff", ["C4", "E4", "G4"], "C4");
-    drawPiano("majorPiano", ["C4", "E4", "G4"], "C4");
-
-    drawStaff("ebMajorStaff", ["Eb4", "G4", "Bb4"], "Eb4");
-    drawPiano("ebMajorPiano", ["Eb4", "G4", "Bb4"], "Eb4");
-
-    drawStaff("minorStaff", ["C4", "Eb4", "G4"], "C4");
-    drawPiano("minorPiano", ["C4", "Eb4", "G4"], "C4");
-
-    drawStaff("bMinorStaff", ["B4", "D5", "F#5"], "B4");
-    drawPiano("bMinorPiano", ["B4", "D5", "F#5"], "B4");
   </script>
 </body>
 </html>
